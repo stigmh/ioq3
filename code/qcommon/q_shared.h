@@ -184,6 +184,10 @@ typedef unsigned char 		byte;
 
 typedef enum {qfalse, qtrue}	qboolean;
 
+#ifdef ui
+#undef ui
+#endif
+
 typedef union {
 	float f;
 	int i;
