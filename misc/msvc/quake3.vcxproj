@@ -176,6 +176,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -196,6 +197,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PostBuildEvent>
       <Message>Post build processing..</Message>
@@ -228,6 +230,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -281,6 +284,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -297,12 +301,13 @@
       <ProgramDatabaseFile>$(IntDir)quake3.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)quake3.map</MapFileName>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <StackReserveSize>8388608</StackReserveSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PostBuildEvent>
       <Message>Post build processing..</Message>
@@ -336,6 +341,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
       <CallingConvention>FastCall</CallingConvention>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -352,7 +358,7 @@
       <ProgramDatabaseFile>$(IntDir)quake3.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)quake3.map</MapFileName>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <StackReserveSize>8388608</StackReserveSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
@@ -390,6 +396,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -410,6 +417,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -438,6 +446,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -486,6 +495,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -500,7 +510,7 @@
       <ProgramDatabaseFile>$(IntDir)quake3.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)quake3.map</MapFileName>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <StackReserveSize>8388608</StackReserveSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
@@ -508,6 +518,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PostBuildEvent>
       <Message>Post build processing..</Message>
@@ -540,6 +551,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -554,7 +566,7 @@
       <ProgramDatabaseFile>$(IntDir)quake3.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)quake3.map</MapFileName>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <StackReserveSize>8388608</StackReserveSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
@@ -976,6 +988,35 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="..\..\code\renderercommon\tr_font.c" />
+    <ClCompile Include="..\..\code\renderercommon\tr_image_bmp.c" />
+    <ClCompile Include="..\..\code\renderercommon\tr_image_jpg.c" />
+    <ClCompile Include="..\..\code\renderercommon\tr_image_pcx.c" />
+    <ClCompile Include="..\..\code\renderercommon\tr_image_png.c" />
+    <ClCompile Include="..\..\code\renderercommon\tr_image_tga.c" />
+    <ClCompile Include="..\..\code\renderercommon\tr_noise.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_animation.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_backend.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_bsp.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_cmds.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_curve.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_flares.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_image.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_init.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_light.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_main.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_marks.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_mesh.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_model.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_model_iqm.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_scene.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_shade.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_shader.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_shade_calc.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_shadows.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_sky.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_surface.c" />
+    <ClCompile Include="..\..\code\renderergl1\tr_world.c" />
     <ClCompile Include="..\..\code\sys\con_log.c" />
     <ClCompile Include="..\..\code\sys\con_passive.c" />
     <ClCompile Include="..\..\code\qcommon\cvar.c">
@@ -1695,35 +1736,6 @@
     <ClCompile Include="..\..\code\botlib\l_precomp.c" />
     <ClCompile Include="..\..\code\botlib\l_script.c" />
     <ClCompile Include="..\..\code\botlib\l_struct.c" />
-    <ClCompile Include="..\..\code\renderer\tr_animation.c" />
-    <ClCompile Include="..\..\code\renderer\tr_backend.c" />
-    <ClCompile Include="..\..\code\renderer\tr_bsp.c" />
-    <ClCompile Include="..\..\code\renderer\tr_cmds.c" />
-    <ClCompile Include="..\..\code\renderer\tr_curve.c" />
-    <ClCompile Include="..\..\code\renderer\tr_flares.c" />
-    <ClCompile Include="..\..\code\renderer\tr_font.c" />
-    <ClCompile Include="..\..\code\renderer\tr_image.c" />
-    <ClCompile Include="..\..\code\renderer\tr_image_bmp.c" />
-    <ClCompile Include="..\..\code\renderer\tr_image_jpg.c" />
-    <ClCompile Include="..\..\code\renderer\tr_image_pcx.c" />
-    <ClCompile Include="..\..\code\renderer\tr_image_png.c" />
-    <ClCompile Include="..\..\code\renderer\tr_image_tga.c" />
-    <ClCompile Include="..\..\code\renderer\tr_init.c" />
-    <ClCompile Include="..\..\code\renderer\tr_light.c" />
-    <ClCompile Include="..\..\code\renderer\tr_main.c" />
-    <ClCompile Include="..\..\code\renderer\tr_marks.c" />
-    <ClCompile Include="..\..\code\renderer\tr_mesh.c" />
-    <ClCompile Include="..\..\code\renderer\tr_model.c" />
-    <ClCompile Include="..\..\code\renderer\tr_model_iqm.c" />
-    <ClCompile Include="..\..\code\renderer\tr_noise.c" />
-    <ClCompile Include="..\..\code\renderer\tr_scene.c" />
-    <ClCompile Include="..\..\code\renderer\tr_shade.c" />
-    <ClCompile Include="..\..\code\renderer\tr_shade_calc.c" />
-    <ClCompile Include="..\..\code\renderer\tr_shader.c" />
-    <ClCompile Include="..\..\code\renderer\tr_shadows.c" />
-    <ClCompile Include="..\..\code\renderer\tr_sky.c" />
-    <ClCompile Include="..\..\code\renderer\tr_surface.c" />
-    <ClCompile Include="..\..\code\renderer\tr_world.c" />
     <ClCompile Include="..\..\code\libspeex\bits.c" />
     <ClCompile Include="..\..\code\libspeex\buffer.c" />
     <ClCompile Include="..\..\code\libspeex\cb_search.c" />
@@ -1781,6 +1793,12 @@
     <ClInclude Include="..\..\code\qcommon\cm_polylib.h" />
     <ClInclude Include="..\..\code\qcommon\cm_public.h" />
     <ClInclude Include="..\..\code\game\g_public.h" />
+    <ClInclude Include="..\..\code\renderercommon\iqm.h" />
+    <ClInclude Include="..\..\code\renderercommon\qgl.h" />
+    <ClInclude Include="..\..\code\renderercommon\tr_common.h" />
+    <ClInclude Include="..\..\code\renderercommon\tr_public.h" />
+    <ClInclude Include="..\..\code\renderercommon\tr_types.h" />
+    <ClInclude Include="..\..\code\renderergl1\tr_local.h" />
     <ClInclude Include="..\..\code\ui\keycodes.h" />
     <ClInclude Include="..\..\code\client\keys.h" />
     <ClInclude Include="..\..\code\qcommon\puff.h" />
