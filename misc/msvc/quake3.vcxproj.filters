@@ -773,9 +773,6 @@
     <ClInclude Include="..\..\code\win32\win_local.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\code\sys\win_resource.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\jpeg-6b\jchuff.h">
       <Filter>jpeg\Header Files</Filter>
     </ClInclude>
@@ -904,6 +901,9 @@
     </ClInclude>
     <ClInclude Include="..\..\code\renderercommon\tr_types.h">
       <Filter>renderer\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\sys\win_resource.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

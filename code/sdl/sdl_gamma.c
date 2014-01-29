@@ -52,6 +52,10 @@ void GLimp_SetGamma( unsigned char red[256], unsigned char green[256], unsigned 
 #ifdef _WIN32
 #include <windows.h>
 
+#ifdef _MSC_VER
+#pragma warning( disable: 4996 )
+#endif
+
 	// Win2K and newer put this odd restriction on gamma ramps...
 	{
 		OSVERSIONINFO	vinfo;
