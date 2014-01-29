@@ -25,6 +25,9 @@
     <Filter Include="jpg\Source Files">
       <UniqueIdentifier>{b39495d1-670f-495c-a5cf-1cdf4c0244bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dynamic">
+      <UniqueIdentifier>{74930f00-78b7-4c7a-982c-cb415a1fec43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\code\renderergl2\tr_world.c">
@@ -361,9 +364,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\code\renderergl2\glsl\bokeh_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
     <None Include="..\..\..\code\renderergl2\glsl\bokeh_vp.glsl">
       <Filter>glsl shaders</Filter>
     </None>
@@ -374,9 +374,6 @@
       <Filter>glsl shaders</Filter>
     </None>
     <None Include="..\..\..\code\renderergl2\glsl\depthblur_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\depthblur_vp.glsl">
       <Filter>glsl shaders</Filter>
     </None>
     <None Include="..\..\..\code\renderergl2\glsl\dlight_fp.glsl">
@@ -445,5 +442,13 @@
     <None Include="..\..\..\code\renderergl2\glsl\tonemap_vp.glsl">
       <Filter>glsl shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\bokeh_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\depthblur_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

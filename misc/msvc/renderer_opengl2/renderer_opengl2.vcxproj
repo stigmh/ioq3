@@ -111,6 +111,10 @@
       <AdditionalDependencies>user32.lib;advapi32.lib;winmm.lib;wsock32.lib;ws2_32.lib;OpenGL32.lib;psapi.lib;..\..\..\code\libs\win32\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\build\renderer_opengl2_debug\renderer_opengl2_x86.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\..\build\dynamic mkdir ..\..\..\build\dynamic
+if not exist ..\..\..\build\dynamic\renderergl2 mkdir ..\..\..\build\dynamic\renderergl2</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -129,6 +133,10 @@
       <AdditionalDependencies>user32.lib;advapi32.lib;winmm.lib;wsock32.lib;ws2_32.lib;OpenGL32.lib;psapi.lib;..\..\..\code\libs\win64\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\build\renderer_opengl2_debug\renderer_opengl2_x86_64.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\..\build\dynamic mkdir ..\..\..\build\dynamic
+if not exist ..\..\..\build\dynamic\renderergl2 mkdir ..\..\..\build\dynamic\renderergl2</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -150,6 +158,10 @@
       <AdditionalDependencies>user32.lib;advapi32.lib;winmm.lib;wsock32.lib;ws2_32.lib;OpenGL32.lib;psapi.lib;..\..\..\code\libs\win32\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\build\renderer_opengl2_release\renderer_opengl2_x86.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\..\build\dynamic mkdir ..\..\..\build\dynamic
+if not exist ..\..\..\build\dynamic\renderergl2 mkdir ..\..\..\build\dynamic\renderergl2</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -171,6 +183,10 @@
       <AdditionalDependencies>user32.lib;advapi32.lib;winmm.lib;wsock32.lib;ws2_32.lib;OpenGL32.lib;psapi.lib;..\..\..\code\libs\win64\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\build\renderer_opengl2_release\renderer_opengl2_x86_64.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\..\build\dynamic mkdir ..\..\..\build\dynamic
+if not exist ..\..\..\build\dynamic\renderergl2 mkdir ..\..\..\build\dynamic\renderergl2</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\code\jpeg-8c\jaricom.c" />
@@ -287,34 +303,538 @@
     <ClInclude Include="..\..\..\code\renderergl2\tr_postprocess.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\code\renderergl2\glsl\bokeh_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\bokeh_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\calclevels4x_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\calclevels4x_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\depthblur_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\depthblur_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\dlight_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\dlight_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\down4x_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\down4x_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\fogpass_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\fogpass_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\generic_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\generic_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\lightall_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\lightall_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\pshadow_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\pshadow_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\shadowfill_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\shadowfill_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\shadowmask_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\shadowmask_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\ssao_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\ssao_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\texturecolor_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\texturecolor_vp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\tonemap_fp.glsl" />
-    <None Include="..\..\..\code\renderergl2\glsl\tonemap_vp.glsl" />
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\bokeh_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\bokeh_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\calclevels4x_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\calclevels4x_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\depthblur_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\depthblur_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\dlight_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\dlight_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\down4x_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\down4x_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\fogpass_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\fogpass_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\generic_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\generic_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\lightall_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\lightall_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\pshadow_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\pshadow_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowfill_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowfill_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowmask_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowmask_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\ssao_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\ssao_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\texturecolor_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\texturecolor_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\tonemap_fp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\tonemap_vp.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Stringifying %(Filename).glsl</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cscript.exe "..\..\msvc\glsl_stringify.vbs" /Nologo "%(RelativeDir)%(Filename).glsl" "..\..\..\build\dynamic\renderergl2\%(Filename).c"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Stringifying %(Filename).glsl</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\dynamic\renderergl2\%(Filename).c;%(Outputs)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

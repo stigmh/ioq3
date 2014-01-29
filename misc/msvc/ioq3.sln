@@ -16,6 +16,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "renderer_opengl1", "rendere
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "renderer_opengl2", "renderer_opengl2\renderer_opengl2.vcxproj", "{F7073286-A134-465E-96DA-51641B47CF23}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "baseq3_missionpack_cgame", "..\baseq3_missionpack_cgame\baseq3_missionpack_cgame.vcxproj", "{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "baseq3_missionpack_game", "baseq3_missionpack_game\baseq3_missionpack_game.vcxproj", "{D566391E-395E-44E1-9AB5-05A7F59DD2A4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "baseq3_missionpack_ui", "baseq3_missionpack_ui\baseq3_missionpack_ui.vcxproj", "{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug TA|Win32 = Debug TA|Win32
@@ -126,6 +132,42 @@ Global
 		{F7073286-A134-465E-96DA-51641B47CF23}.Release|Win32.ActiveCfg = Release|Win32
 		{F7073286-A134-465E-96DA-51641B47CF23}.Release|Win32.Build.0 = Release|Win32
 		{F7073286-A134-465E-96DA-51641B47CF23}.Release|x64.ActiveCfg = Release|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Debug TA|Win32.ActiveCfg = Debug|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Debug TA|Win32.Build.0 = Debug|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Debug TA|x64.ActiveCfg = Debug|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Debug|Win32.Build.0 = Debug|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Debug|x64.ActiveCfg = Debug|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Release TA|Win32.ActiveCfg = Release|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Release TA|Win32.Build.0 = Release|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Release TA|x64.ActiveCfg = Release|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Release|Win32.ActiveCfg = Release|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Release|Win32.Build.0 = Release|Win32
+		{A4BC0636-806A-47CC-B7B4-9EDBA15AA634}.Release|x64.ActiveCfg = Release|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Debug TA|Win32.ActiveCfg = Debug|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Debug TA|Win32.Build.0 = Debug|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Debug TA|x64.ActiveCfg = Debug|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Debug|Win32.Build.0 = Debug|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Debug|x64.ActiveCfg = Debug|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Release TA|Win32.ActiveCfg = Release|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Release TA|Win32.Build.0 = Release|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Release TA|x64.ActiveCfg = Release|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Release|Win32.ActiveCfg = Release|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Release|Win32.Build.0 = Release|Win32
+		{D566391E-395E-44E1-9AB5-05A7F59DD2A4}.Release|x64.ActiveCfg = Release|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Debug TA|Win32.ActiveCfg = Debug|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Debug TA|Win32.Build.0 = Debug|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Debug TA|x64.ActiveCfg = Debug|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Debug|Win32.Build.0 = Debug|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Debug|x64.ActiveCfg = Debug|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Release TA|Win32.ActiveCfg = Release|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Release TA|Win32.Build.0 = Release|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Release TA|x64.ActiveCfg = Release|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Release|Win32.ActiveCfg = Release|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Release|Win32.Build.0 = Release|Win32
+		{C0FF3610-D1DD-417B-BB4F-0F4A45C644C4}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
