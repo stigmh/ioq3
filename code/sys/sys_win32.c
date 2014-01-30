@@ -688,8 +688,10 @@ void Sys_GLimpInit( void )
 		}
 		else
 		{
+#ifdef NDEBUG
 			// Use the DirectX SDL backend
 			_putenv( "SDL_VIDEODRIVER=directx" );
+#endif
 		}
 	}
 #endif
