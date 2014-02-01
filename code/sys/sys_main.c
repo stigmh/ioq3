@@ -142,8 +142,11 @@ static char *Sys_PIDFileName( void )
 {
 	const char *homePath = Sys_DefaultHomePath( );
 
-	if( *homePath != '\0' )
-		return va( "%s/%s", homePath, PID_FILENAME );
+	if (homePath)
+	{
+		if (*homePath != '\0')
+			return va("%s/%s", homePath, PID_FILENAME);
+	}
 
 	return NULL;
 }
@@ -638,7 +641,7 @@ int main( int argc, char **argv )
 	Com_Init( commandLine );
 	NET_Init( );
 
-	CON_Init( );
+	CON_Init();
 
 	signal( SIGILL, Sys_SigHandler );
 	signal( SIGFPE, Sys_SigHandler );

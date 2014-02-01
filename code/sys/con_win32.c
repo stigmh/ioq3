@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../qcommon/qcommon.h"
 #include "sys_local.h"
 #include "windows.h"
+#include "Strsafe.h"
 
 #define QCONSOLE_HISTORY 32
 
@@ -189,7 +190,13 @@ static void CON_Show( void )
 	CHAR_INFO line[ MAX_EDIT_LINE ];
 	WORD attrib;
 
-	GetConsoleScreenBufferInfo( qconsole_hout, &binfo );
+	if (!qconsole_hout)
+		qconsole_hout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	if (!GetConsoleScreenBufferInfo(qconsole_hout, &binfo))
+	{
+		return;
+	}
 
 	// if we're in the middle of printf, don't bother writing the buffer
 	if( !qconsole_drawinput )
@@ -284,14 +291,18 @@ void CON_Init( void )
 
 	// handle Ctrl-C or other console termination
 	SetConsoleCtrlHandler( CON_CtrlHandler, TRUE );
-
-	qconsole_hin = GetStdHandle( STD_INPUT_HANDLE );
-	if( qconsole_hin == INVALID_HANDLE_VALUE )
+	
+	
+	qconsole_hin = GetStdHandle(STD_INPUT_HANDLE);
+	if (qconsole_hin == INVALID_HANDLE_VALUE)
 		return;
 
-	qconsole_hout = GetStdHandle( STD_OUTPUT_HANDLE );
-	if( qconsole_hout == INVALID_HANDLE_VALUE )
-		return;
+	if (!qconsole_hout)
+	{
+		qconsole_hout = GetStdHandle(STD_OUTPUT_HANDLE);
+		if (qconsole_hout == INVALID_HANDLE_VALUE)
+			return;
+	}
 
 	GetConsoleMode( qconsole_hin, &qconsole_orig_mode );
 
@@ -301,9 +312,12 @@ void CON_Init( void )
 
 	FlushConsoleInputBuffer( qconsole_hin ); 
 
-	GetConsoleScreenBufferInfo( qconsole_hout, &info );
-	qconsole_attrib = info.wAttributes;
-	qconsole_backgroundAttrib = qconsole_attrib & (BACKGROUND_BLUE|BACKGROUND_GREEN|BACKGROUND_RED|BACKGROUND_INTENSITY);
+	if (GetConsoleScreenBufferInfo(qconsole_hout, &info) && info.wAttributes)
+		qconsole_attrib = info.wAttributes;
+	else
+		qconsole_attrib = 7;
+
+	qconsole_backgroundAttrib = qconsole_attrib & (BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 
 	SetConsoleTitle(CLIENT_WINDOW_TITLE " Dedicated Server Console");
 
@@ -312,7 +326,7 @@ void CON_Init( void )
 		qconsole_history[ i ][ 0 ] = '\0';
 
 	// set text color to white
-	SetConsoleTextAttribute( qconsole_hout, CON_ColorCharToAttrib( COLOR_WHITE ) );
+	SetConsoleTextAttribute( qconsole_hout, 7 );
 }
 
 /*
@@ -453,7 +467,7 @@ void CON_WindowsColorPrint( const char *msg )
 			if( *msg == '\n' )
 			{
 				// Reset color and then add the newline
-				SetConsoleTextAttribute( qconsole_hout, CON_ColorCharToAttrib( COLOR_WHITE ) );
+				SetConsoleTextAttribute( qconsole_hout, 7 );
 				fputs( "\n", stderr );
 				msg++;
 			}
