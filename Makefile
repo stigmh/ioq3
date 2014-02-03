@@ -497,7 +497,7 @@ else # ifeq darwin
 #############################################################################
 
 ifeq ($(PLATFORM),mingw32)
-
+  LDFLAGS += -static-libgcc -static-libstdc++ -static
   ifeq ($(CROSS_COMPILING),1)
     # If CC is already set to something generic, we probably want to use
     # something more specific
@@ -1091,12 +1091,12 @@ endif
 
 define DO_CC
 $(echo_cmd) "CC $<"
-$(Q)$(CC) $(NOTSHLIBCFLAGS) $(CFLAGS) $(CLIENT_CFLAGS) $(OPTIMIZE) -o $@ -c $<
+$(Q)$(CC) $(NOTSHLIBCFLAGS) $(CFLAGS) $(CLIENT_CFLAGS) $(LDFLAGS) $(OPTIMIZE) -o $@ -c $<
 endef
 
 define DO_REF_CC
 $(echo_cmd) "REF_CC $<"
-$(Q)$(CC) $(SHLIBCFLAGS) $(CFLAGS) $(CLIENT_CFLAGS) $(OPTIMIZE) -o $@ -c $<
+$(Q)$(CC) $(SHLIBCFLAGS) $(CFLAGS) $(CLIENT_CFLAGS) $(LDFLAGS) $(OPTIMIZE) -o $@ -c $<
 endef
 
 define DO_REF_STR
@@ -1109,7 +1109,7 @@ endef
 
 define DO_BOT_CC
 $(echo_cmd) "BOT_CC $<"
-$(Q)$(CC) $(NOTSHLIBCFLAGS) $(CFLAGS) $(BOTCFLAGS) $(OPTIMIZE) -DBOTLIB -o $@ -c $<
+$(Q)$(CC) $(NOTSHLIBCFLAGS) $(CFLAGS) $(BOTCFLAGS)  $(LDFLAGS) $(OPTIMIZE) -DBOTLIB -o $@ -c $<
 endef
 
 ifeq ($(GENERATE_DEPENDENCIES),1)
@@ -1166,12 +1166,12 @@ endef
 
 define DO_AS
 $(echo_cmd) "AS $<"
-$(Q)$(CC) $(CFLAGS) $(OPTIMIZE) -x assembler-with-cpp -o $@ -c $<
+$(Q)$(CC) $(CFLAGS)  $(LDFLAGS) $(OPTIMIZE) -x assembler-with-cpp -o $@ -c $<
 endef
 
 define DO_DED_CC
 $(echo_cmd) "DED_CC $<"
-$(Q)$(CC) $(NOTSHLIBCFLAGS) -DDEDICATED $(CFLAGS) $(SERVER_CFLAGS) $(OPTIMIZE) -o $@ -c $<
+$(Q)$(CC) $(NOTSHLIBCFLAGS) -DDEDICATED $(CFLAGS) $(SERVER_CFLAGS)  $(LDFLAGS) $(OPTIMIZE) -o $@ -c $<
 endef
 
 define DO_WINDRES
