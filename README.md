@@ -7,6 +7,69 @@
                    |                                       |
                    `---------- http://ioquake3.org --------'
 
+               __  _            __                 ___ __  _          
+          ___ / /_(_)__ ___ _  / /  ___ _  ___ ___/ (_) /_(_)__  ___ 
+         (_-</ __/ / _ `/  ' \/ _ \/ _ `/ / -_) _  / / __/ / _ \/ _ \
+        /___/\__/_/\_, /_/_/_/_//_/\_,_/  \__/\_,_/_/\__/_/\___/_//_/
+                  /___/                                                                                            
+
+                    Stig Magnus Halvorsen <halsti@nith.no>
+
+This repository is intended to provide [OpenArena](http://www.openarena.ws)
+with the latest version and updates from the [ioquake3 game 
+engine](https://github.com/ioquake/ioq3/). You are currently looking at the
+*ioquake3* branch of this repository, which is the primary branch for pulling
+engine updates from the official [ioquake3](https://github.com/ioquake/ioq3/)
+repository. The *master* branch (OpenArena branch) is to be merged with this
+branch occasionally.
+
+The aim of this branch is to have an up-to-date version of the *ioquake3* that
+builds on all platforms by either using the Makefile or the supported IDEs.
+
+**NB:** the current revision of this branch is only tested and confirmed
+working on Windows 7/8 using either *Make* through
+*[MinGW](http://sourceforge.net/projects/mingw/files/latest/download)* or the
+[Visual Studio 2013]
+(http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
+project located in */misc/msvc/ioq3.sln*.
+
+Changelog
+=========
+
+*03.02.2014*
+
+* Created a new repository
+* Updated the Visual Studio project
+	* Now Visual Studio 2013. You can download the Express edition for free from their [official webpage](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop).
+	* Updated to contain and build the actual projects used by *ioquake3*:
+		* cgame (client QVM)
+		* game (server QVM)
+		* q3_ui (ui QVM)
+		* ioquake3 (engine exe)
+		* ioquake3_dedicated (dedicated server edition of engine)
+		* All three missionpacks
+		* Standalone renderers; opengl1 and opengl2
+	* I got lots of help doing this by reading Jonathan Young's ([jpcy](https://github.com/jpcy)) custom [https://github.com/jpcy/ioq3-mono/blob/master/misc/premake5.lua](premake5.lua) script file. I originally wanted to use his Premake script to generate the project files, but it was too incomplete.
+* Fixed a build error in the engine caused by a deprecated Win32 API call (IsWindowsVersionOrGreater()) that checked if the client was Windows NT or older. It was fixed by adding a ``#pragma ignore'', but it should ideally be replaced with the newer Windows API calls. They require the C++ compiler, and won't be supported by our pure C project.
+* Added a patch setting video driver to "windib" for debug builds in Sys_GLimpInit() in sys_win32.c line 693. It was originally set to "directx" which actually enforces SDL to use the DirectX v.5 API. This caused a dead-lock like behavior when setting a breakpoint in Visual Studio, resulting in a freezed cursor and an unstable Visual Studio. It freezed the entire machine on OSX hardware.
+* Upgraded the cURL code to 1.34.1 (was 1.30.4). Contains [many of fixes](http://curl.haxx.se/changes.html) including patching multiple security vulnerabilities.
+* Created this additional documentation to the original ioquake3 readme
+
+External Resources
+==================
+
+* ["Official" forum post for this repo](http://openarena.ws/board/index.php?topic=4900.0)
+* [ioquake3 help section](http://ioquake3.org/help/) (base engine)
+* [ioquake3 git repo and readme](https://github.com/ioquake/ioq3/)
+* [Download Visual Studio 2013 Express](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
+* [Official SDL website](http://libsdl.org/)
+* [7-zip File Manager](http://7-zip.org/)
+* [Fabien Sanglard's excellent code review of the Quake 3 engine](http://fabiensanglard.net/quake3/index.php)
+* [Jean-Paul van Waveren's thesis on implementing bots in Quake 3](http://fd.fabiensanglard.net/quake3/The-Quake-III-Arena-Bot.pdf)
+
+Original ioquake3 README
+========================
+
 The intent of this project is to provide a baseline Quake 3 which may be used
 for further development and baseq3 fun. 
 Some of the major features currently implemented are:
@@ -781,6 +844,3 @@ Significant contributions from
   * Vincent S. Cojot <vincent at cojot dot name>
   * optical <alex@rigbo.se>
   * Aaron Gyes <floam@aaron.gy>
-
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/6d196bd663b47049a25dcb8caef95949 "githalytics.com")](http://githalytics.com/ioquake/ioq3)
