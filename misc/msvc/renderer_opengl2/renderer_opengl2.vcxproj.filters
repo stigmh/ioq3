@@ -291,6 +291,90 @@
     <ClCompile Include="..\..\..\code\jpeg-8c\jquant2.c">
       <Filter>jpg\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\tonemap_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\bokeh_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\bokeh_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\calclevels4x_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\calclevels4x_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\depthblur_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\depthblur_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\dlight_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\dlight_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\down4x_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\down4x_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\fogpass_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\fogpass_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\generic_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\generic_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\lightall_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\lightall_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\pshadow_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\pshadow_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\shadowfill_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\shadowfill_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\shadowmask_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\shadowmask_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\ssao_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\ssao_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\texturecolor_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\texturecolor_vp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build\dynamic\renderergl2\tonemap_fp.c">
+      <Filter>dynamic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\renderergl2\tr_extramath.h">
@@ -364,90 +448,88 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\code\renderergl2\glsl\bokeh_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\calclevels4x_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\calclevels4x_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\depthblur_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\dlight_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\dlight_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\down4x_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\down4x_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\fogpass_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\fogpass_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\generic_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\generic_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\lightall_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\lightall_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\pshadow_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\pshadow_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\shadowfill_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\shadowfill_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\shadowmask_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\shadowmask_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\ssao_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\ssao_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\texturecolor_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\texturecolor_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\tonemap_fp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-    <None Include="..\..\..\code\renderergl2\glsl\tonemap_vp.glsl">
-      <Filter>glsl shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <CustomBuild Include="..\..\..\code\renderergl2\glsl\bokeh_fp.glsl">
       <Filter>glsl shaders</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\..\code\renderergl2\glsl\depthblur_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\bokeh_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\calclevels4x_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\calclevels4x_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\depthblur_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\dlight_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\dlight_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\down4x_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\down4x_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\fogpass_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\fogpass_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\generic_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\generic_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\lightall_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\lightall_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\pshadow_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\pshadow_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowfill_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowfill_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowmask_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\shadowmask_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\ssao_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\ssao_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\texturecolor_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\texturecolor_vp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\tonemap_fp.glsl">
+      <Filter>glsl shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\code\renderergl2\glsl\tonemap_vp.glsl">
       <Filter>glsl shaders</Filter>
     </CustomBuild>
   </ItemGroup>

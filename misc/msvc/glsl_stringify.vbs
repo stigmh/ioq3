@@ -1,9 +1,21 @@
-Dim fso, infile, outfile, line
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set infile = fso.OpenTextFile(WScript.Arguments(0))
-Set outfile = fso.CreateTextFile(WScript.Arguments(1), True)
+Dim fso, infilePath, outfilePath, infile, outfile, line
 
-outfile.WriteLine("const char *fallbackShader_" & fso.GetBaseName(WScript.Arguments(0)) & " =")
+if WScript.Arguments.Count < 2 then
+    WScript.Echo "Missing parameters"
+    WScript.Quit 1
+end if
+
+infilePath = WScript.Arguments(WScript.Arguments.Count - 2)
+outfilePath = WScript.Arguments(WScript.Arguments.Count - 1)
+
+Set fso = CreateObject("Scripting.FileSystemObject")
+Set infile = fso.OpenTextFile(infilePath)
+Set outfile = fso.CreateTextFile(outfilePath, True)
+
+WScript.Echo "Path of input file: " & infilePath
+WScript.Echo "Path of output file: " & outfilePath
+
+outfile.WriteLine("const char *fallbackShader_" & fso.GetBaseName(infilePath) & " =")
 While Not infile.AtEndOfStream
 	line = infile.ReadLine
 	line = Replace(line, "\", "\\")
