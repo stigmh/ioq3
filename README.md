@@ -5,7 +5,7 @@
                    |  |_\___/\__, |\_,_\__,_|_\_\___|___/  |
                    |            |_|                        |
                    |                                       |
-                   `---------- http://ioquake3.org --------'
+                   `---------- http://ioquake3.org --------´
 
                __  _            __                 ___ __  _          
           ___ / /_(_)__ ___ _  / /  ___ _  ___ ___/ (_) /_(_)__  ___ 
@@ -13,7 +13,7 @@
         /___/\__/_/\_, /_/_/_/_//_/\_,_/  \__/\_,_/_/\__/_/\___/_//_/
                   /___/                                                                                            
 
-                    Stig Magnus Halvorsen <halsti@nith.no>
+                    Stig Magnus Halvorsen <halsti@nith.no>'
 
 This repository is intended to provide [OpenArena](http://www.openarena.ws)
 with the latest version and updates from the [ioquake3 game 
