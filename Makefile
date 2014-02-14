@@ -582,7 +582,12 @@ ifeq ($(PLATFORM),mingw32)
   CLIENT_LDFLAGS += -mwindows
   CLIENT_LIBS = -lgdi32 -lole32
   RENDERER_LIBS = -lgdi32 -lole32 -lopengl32
-
+  
+  ifeq ($(CROSS_COMPILING),0)
+    TOOLS_BINEXT=.exe
+    RENDERER_LIBS += -static-libgcc	
+  endif
+  
   ifeq ($(USE_FREETYPE),1)
     BASE_CFLAGS += -Ifreetype2
   endif
