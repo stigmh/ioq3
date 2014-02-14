@@ -574,10 +574,6 @@ ifeq ($(PLATFORM),mingw32)
 
   BINEXT=.exe
 
-  ifeq ($(CROSS_COMPILING),0)
-    TOOLS_BINEXT=.exe
-  endif
-
   LIBS= -lws2_32 -lwinmm -lpsapi
   CLIENT_LDFLAGS += -mwindows
   CLIENT_LIBS = -lgdi32 -lole32
