@@ -165,6 +165,8 @@ void ColorToRGBM(const vec3_t color, unsigned char rgbm[4])
 	vec3_t          sample;
 	float			maxComponent;
 
+	VectorCopy(color, sample);
+
 	maxComponent = MAX(sample[0], sample[1]);
 	maxComponent = MAX(maxComponent, sample[2]);
 	maxComponent = CLAMP(maxComponent, 1.0f/255.0f, 1.0f);
@@ -284,13 +286,10 @@ static	void R_LoadLightmaps( lump_t *l, lump_t *surfs ) {
 		tr.deluxemaps = ri.Hunk_Alloc( tr.numLightmaps * sizeof(image_t *), h_low );
 	}
 
-	if (r_hdr->integer)
-	{
-		if (glRefConfig.textureFloat && glRefConfig.halfFloatPixel && r_floatLightmap->integer)
-			textureInternalFormat = GL_RGBA16F_ARB;
-		else
-			textureInternalFormat = GL_RGBA8;
-	}
+	if (glRefConfig.floatLightmap)
+		textureInternalFormat = GL_RGBA16F_ARB;
+	else
+		textureInternalFormat = GL_RGBA8;
 
 	if (r_mergeLightmaps->integer)
 	{
@@ -384,7 +383,7 @@ static	void R_LoadLightmaps( lump_t *l, lump_t *surfs ) {
 			{
 				if (hdrLightmap)
 				{
-					float color[3];
+					vec4_t color;
 
 #if 0 // HDRFILE_RGBE
 					float exponent = exp2(buf_p[j*4+3] - 128);
@@ -399,16 +398,18 @@ static	void R_LoadLightmaps( lump_t *l, lump_t *surfs ) {
 					color[1] = LittleFloat(color[1]);
 					color[2] = LittleFloat(color[2]);
 #endif
+					color[3] = 1.0f;
+
 					R_ColorShiftLightingFloats(color, color, 1.0f/255.0f);
 
-					if (glRefConfig.textureFloat && glRefConfig.halfFloatPixel && r_floatLightmap->integer)
+					if (glRefConfig.floatLightmap)
 						ColorToRGBA16F(color, (unsigned short *)(&image[j*8]));
 					else
 						ColorToRGBM(color, &image[j*4]);
 				}
-				else if (glRefConfig.textureFloat && glRefConfig.halfFloatPixel && r_floatLightmap->integer) 
+				else if (glRefConfig.floatLightmap)
 				{
-					float color[3];
+					vec4_t color;
 
 					//hack: convert LDR lightmap to HDR one
 					color[0] = MAX(buf_p[j*3+0], 0.499f);
@@ -424,6 +425,7 @@ static	void R_LoadLightmaps( lump_t *l, lump_t *surfs ) {
 						color[1] = avg;
 						color[2] = avg;
 					}
+					color[3] = 1.0f;
 
 					R_ColorShiftLightingFloats(color, color, 1.0f/255.0f);
 

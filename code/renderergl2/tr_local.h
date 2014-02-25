@@ -1425,6 +1425,8 @@ typedef struct {
 	qboolean seamlessCubeMap;
 
 	GLenum packedNormalDataType;
+
+	qboolean floatLightmap;
 } glRefConfig_t;
 
 
@@ -1762,8 +1764,6 @@ extern	cvar_t	*r_anaglyphMode;
 
 extern  cvar_t  *r_mergeMultidraws;
 extern  cvar_t  *r_mergeLeafSurfaces;
-
-extern  cvar_t  *r_softOverbright;
 
 extern  cvar_t  *r_hdr;
 extern  cvar_t  *r_floatLightmap;
