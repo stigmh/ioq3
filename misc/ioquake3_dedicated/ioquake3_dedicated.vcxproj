@@ -72,6 +72,7 @@
     <OutDir>../../build/ioquake3_dedicated_debug</OutDir>
     <IntDir>../../build/ioquake3_dedicated_debug</IntDir>
     <LibraryPath>$(ProjectDir)\..\..\code\libs\win32;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(ProjectDir)\..\..\code\libcurl-7.35.0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -79,6 +80,7 @@
     <OutDir>../../build/ioquake3_dedicated_debug</OutDir>
     <IntDir>../../build/ioquake3_dedicated_debug</IntDir>
     <LibraryPath>$(ProjectDir)\..\..\code\libs\win64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
+    <IncludePath>$(ProjectDir)\..\..\code\libcurl-7.35.0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -86,6 +88,7 @@
     <IntDir>../../build/ioquake3_dedicated_release</IntDir>
     <TargetName>ioq3ded.x86</TargetName>
     <LibraryPath>$(ProjectDir)\..\..\code\libs\win32;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(ProjectDir)\..\..\code\libcurl-7.35.0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -93,6 +96,7 @@
     <IntDir>../../build/ioquake3_dedicated_release</IntDir>
     <TargetName>ioq3ded.x86_64</TargetName>
     <LibraryPath>$(ProjectDir)\..\..\code\libs\win64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
+    <IncludePath>$(ProjectDir)\..\..\code\libcurl-7.35.0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
