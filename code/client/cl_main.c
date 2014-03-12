@@ -121,6 +121,8 @@ cvar_t	*cl_consoleKeys;
 
 cvar_t	*cl_rate;
 
+cvar_t	*cl_virtualClient;
+
 clientActive_t		cl;
 clientConnection_t	clc;
 clientStatic_t		cls;
@@ -3003,6 +3005,14 @@ void CL_Frame ( int msec ) {
 	// see if we need to update any userinfo
 	CL_CheckUserinfo();
 
+	// Update virtual clients - STIG confirmed working
+	if (cl_virtualClient->integer)
+	{
+		// might be cls.realtime
+		//CL_BotFrame(cls.frametime);
+	}
+
+
 	// if we haven't gotten a packet in a long time,
 	// drop the connection
 	CL_CheckTimeout();
@@ -3580,6 +3590,9 @@ void CL_Init( void ) {
 	Cvar_Get ("cg_viewsize", "100", CVAR_ARCHIVE );
 	// Make sure cg_stereoSeparation is zero as that variable is deprecated and should not be used anymore.
 	Cvar_Get ("cg_stereoSeparation", "0", CVAR_ROM);
+	
+	cl_virtualClient = Cvar_Get("cl_virtualClient", "0", CVAR_LATCH);
+	Cvar_CheckRange(cl_virtualClient, 0, 1, qtrue);
 
 	//
 	// register our commands

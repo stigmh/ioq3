@@ -341,6 +341,10 @@ void CG_RegisterCvars( void ) {
 	trap_Cvar_VariableStringBuffer( "sv_running", var, sizeof( var ) );
 	cgs.localServer = atoi( var );
 
+	// Check whether we're running as a virtual client
+	trap_Cvar_VariableStringBuffer("cl_virtualClient", var, sizeof(var));
+	cgs.virtualClient = (qboolean)atoi(var);
+
 	forceModelModificationCount = cg_forceModel.modificationCount;
 
 	trap_Cvar_Register(NULL, "model", DEFAULT_MODEL, CVAR_USERINFO | CVAR_ARCHIVE );
@@ -1914,6 +1918,15 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 	CG_RegisterGraphics();
 
 	CG_LoadingString( "clients" );
+
+	/* Stig // Initialize botlib
+	if (cgs.virtualClient)
+	{
+		BotAISetup( qfalse );
+		BotAILoadMap( qfalse );
+		CG_InitBots( qfalse );
+	}
+	*/
 
 	CG_RegisterClients();		// if low on memory, some clients will be deferred
 
