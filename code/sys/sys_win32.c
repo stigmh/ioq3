@@ -686,13 +686,13 @@ void Sys_GLimpInit( void )
 			// the behaviour of idq3 with in_mouse set to -1
 			_putenv( "SDL_VIDEODRIVER=windib" );
 		}
+#ifdef NDEBUG
 		else
 		{
-#ifdef NDEBUG
 			// Use the DirectX SDL backend
 			_putenv( "SDL_VIDEODRIVER=directx" );
-#endif
 		}
+#endif
 	}
 #endif
 }

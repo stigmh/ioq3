@@ -1,5 +1,6 @@
 build
 Makefile.local
+baseq3path.local.bat
 *.swp
 *tags
 
