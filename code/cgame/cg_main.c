@@ -1919,15 +1919,6 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 
 	CG_LoadingString( "clients" );
 
-	/* Stig // Initialize botlib
-	if (cgs.virtualClient)
-	{
-		BotAISetup( qfalse );
-		BotAILoadMap( qfalse );
-		CG_InitBots( qfalse );
-	}
-	*/
-
 	CG_RegisterClients();		// if low on memory, some clients will be deferred
 
 #ifdef MISSIONPACK
