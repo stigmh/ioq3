@@ -399,7 +399,7 @@ clients along with it.
 This is NOT called for map_restart
 ================
 */
-void SV_SpawnServer( char *server, qboolean killBots ) {
+void SV_SpawnServer(char *server, qboolean killBots) {
 	int			i;
 	int			checksum;
 	qboolean	isBot;
@@ -409,47 +409,54 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// shut down the existing game if it is running
 	SV_ShutdownGameProgs();
 
-	Com_Printf ("------ Server Initialization ------\n");
-	Com_Printf ("Server: %s\n",server);
+	Com_Printf("------ Server Initialization ------\n");
+	Com_Printf("Server: %s\n", server);
 
-	// if not running a dedicated server CL_MapLoading will connect the client to the server
-	// also print some status stuff
-	CL_MapLoading();
+	if (!com_virtualClient->integer)
+	{
+		// if not running a dedicated server CL_MapLoading will connect the client to the server
+		// also print some status stuff
+		CL_MapLoading();
 
-	// make sure all the client stuff is unloaded
-	CL_ShutdownAll(qfalse);
+		// make sure all the client stuff is unloaded
+		CL_ShutdownAll(qfalse);
 
-	// clear the whole hunk because we're (re)loading the server
-	Hunk_Clear();
+		// clear the whole hunk because we're (re)loading the server
+		Hunk_Clear();
 
-	// clear collision map data
-	CM_ClearMap();
+		// clear collision map data
+		CM_ClearMap();
+	}
 
 	// init client structures and svs.numSnapshotEntities 
-	if ( !Cvar_VariableValue("sv_running") ) {
+	if (!Cvar_VariableValue("sv_running")) {
 		SV_Startup();
-	} else {
+	}
+	else {
 		// check for maxclients change
-		if ( sv_maxclients->modified ) {
+		if (sv_maxclients->modified) {
 			SV_ChangeMaxClients();
 		}
 	}
 
-	// clear pak references
-	FS_ClearPakReferences(0);
+	if (!com_virtualClient->integer) {
+		// clear pak references
+		FS_ClearPakReferences(0);
+	}
 
 	// allocate the snapshot entities on the hunk
-	svs.snapshotEntities = Hunk_Alloc( sizeof(entityState_t)*svs.numSnapshotEntities, h_high );
+	svs.snapshotEntities = Hunk_Alloc(sizeof(entityState_t)*svs.numSnapshotEntities, h_high);
 	svs.nextSnapshotEntities = 0;
 
 	// toggle the server bit so clients can detect that a
 	// server has changed
 	svs.snapFlagServerBit ^= SNAPFLAG_SERVERCOUNT;
 
-	// set nextmap to the same map, but it may be overriden
-	// by the game startup or another console command
-	Cvar_Set( "nextmap", "map_restart 0");
-//	Cvar_Set( "nextmap", va("map %s", server) );
+	if (!com_virtualClient->integer) {
+		// set nextmap to the same map, but it may be overriden
+		// by the game startup or another console command
+		Cvar_Set("nextmap", "map_restart 0");
+	}
 
 	for (i=0 ; i<sv_maxclients->integer ; i++) {
 		// save when the server started for each client already connected
@@ -467,9 +474,11 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// make sure we are not paused
 	Cvar_Set("cl_paused", "0");
 
-	// get a new checksum feed and restart the file system
-	sv.checksumFeed = ( ((int) rand() << 16) ^ rand() ) ^ Com_Milliseconds();
-	FS_Restart( sv.checksumFeed );
+	if (!com_virtualClient->integer) {
+		// get a new checksum feed and restart the file system
+		sv.checksumFeed = (((int)rand() << 16) ^ rand()) ^ Com_Milliseconds();
+		FS_Restart(sv.checksumFeed);
+	}
 
 	CM_LoadMap( va("maps/%s.bsp", server), qfalse, &checksum );
 

@@ -1055,9 +1055,13 @@ void SV_Frame( int msec ) {
 
 	// the menu kills the server with this cvar
 	if ( sv_killserver->integer ) {
-		SV_Shutdown ("Server was killed");
-		Cvar_Set( "sv_killserver", "0" );
-		return;
+		if (com_virtualClient->integer) {
+			Cvar_Set("sv_killserver", "0");
+		} else {
+			SV_Shutdown("Server was killed");
+			Cvar_Set("sv_killserver", "0");
+			return;
+		}
 	}
 
 	if (!com_sv_running->integer)
