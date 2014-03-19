@@ -1635,7 +1635,7 @@ void NET_Event(fd_set *fdr)
 					continue;          // drop this packet
 			}
 
-			if(com_sv_running->integer)
+			if(com_sv_running->integer && !com_virtualClient->integer)
 				Com_RunAndTimeServerPacket(&from, &netmsg);
 			else
 				CL_PacketEvent(from, &netmsg);

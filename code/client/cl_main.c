@@ -2953,6 +2953,21 @@ void CL_Frame ( int msec ) {
 			// Bring up the main menu
 			VM_Call(uivm, UI_SET_ACTIVE_MENU, UIMENU_MAIN);
 		//}
+	} else if (clc.state == CA_PRIMED && com_virtualClient->integer
+		&& !com_sv_running->integer && (cl.gameState.dataCount > 0)) {
+		// Retrieve server info
+		char *serverInfo = cl.gameState.stringData + cl.gameState.stringOffsets[CS_SERVERINFO];
+
+		Cvar_Set("fraglimit", Info_ValueForKey(serverInfo, "fraglimit"));
+		Cvar_Set("timelimit", Info_ValueForKey(serverInfo, "timelimit"));
+		Cvar_Set("g_gametype", Info_ValueForKey(serverInfo, "g_gametype"));
+		Cvar_Set("sv_maxclients", Info_ValueForKey(serverInfo, "sv_maxclients"));
+		Cvar_Set("g_maxGameClients", Info_ValueForKey(serverInfo, "g_maxGameClients"));
+		Cvar_Set("capturelimit", Info_ValueForKey(serverInfo, "capturelimit"));
+
+		// Start the local virtual server
+		Cbuf_ExecuteText(EXEC_NOW,
+			va("devmap %s\n", Info_ValueForKey(serverInfo, "mapname")));
 	}
 
 	// if recording an avi, lock to a fixed fps
