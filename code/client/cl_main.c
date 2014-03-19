@@ -2972,7 +2972,7 @@ void CL_Frame ( int msec ) {
 		// Add a bot based on the user configuration <- this one will be used to control the player
 		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
 		Cbuf_ExecuteText(EXEC_APPEND,
-			va("Addbot %s %f %s %i %s\n", botname, 4.f, "red", 0, Cvar_VariableString("name")));
+			va("Addbot %s %f %s %i %s\n", botname, 4.f, Cvar_VariableString("team"), 0, Cvar_VariableString("name")));
 	}
 
 	// if recording an avi, lock to a fixed fps
