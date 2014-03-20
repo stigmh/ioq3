@@ -2939,7 +2939,12 @@ void CL_Frame ( int msec ) {
 	} else if (clc.state == CA_PRIMED && com_virtualClient->integer
 		&& !com_sv_running->integer && (cl.gameState.dataCount > 0)) {
 		// Retrieve server info from the actual remote server
-		char *serverInfo = cl.gameState.stringData + cl.gameState.stringOffsets[CS_SERVERINFO];
+		char *serverInfo;
+		const char *fullModelName;
+		char botname[MAX_QPATH];
+		int i;
+
+		serverInfo = cl.gameState.stringData + cl.gameState.stringOffsets[CS_SERVERINFO];
 
 		// Set up local server params with data from the remote server to mirror it locally
 		Cvar_Set("fraglimit", Info_ValueForKey(serverInfo, "fraglimit"));
@@ -2954,9 +2959,7 @@ void CL_Frame ( int msec ) {
 			va("devmap %s\n", Info_ValueForKey(serverInfo, "mapname")));
 
 		// Retrieve the bot model name
-		const char *fullModelName = Cvar_VariableString("model");
-		char botname[MAX_QPATH];
-		int i;
+		fullModelName = Cvar_VariableString("model");
 
 		for (i = 0; i < MAX_QPATH; ++i)
 		{
@@ -2968,7 +2971,7 @@ void CL_Frame ( int msec ) {
 
 			botname[i] = fullModelName[i];
 		}
-
+		
 		// Add a bot based on the user configuration <- this one will be used to control the player
 		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
 		Cbuf_ExecuteText(EXEC_APPEND,
