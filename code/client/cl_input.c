@@ -583,20 +583,20 @@ usercmd_t CL_CreateCmd( void ) {
 	CL_CmdButtons( &cmd );
 
 	// get basic movement from keyboard
-	CL_KeyMove( &cmd );
+	CL_KeyMove(&cmd);
 
 	// get basic movement from mouse
-	CL_MouseMove( &cmd );
+	CL_MouseMove(&cmd);
 
 	// get basic movement from joystick
-	CL_JoystickMove( &cmd );
+	CL_JoystickMove(&cmd);
 
 	// check to make sure the angles haven't wrapped
 	if ( cl.viewangles[PITCH] - oldAngles[PITCH] > 90 ) {
 		cl.viewangles[PITCH] = oldAngles[PITCH] + 90;
 	} else if ( oldAngles[PITCH] - cl.viewangles[PITCH] > 90 ) {
 		cl.viewangles[PITCH] = oldAngles[PITCH] - 90;
-	} 
+	}
 
 	// store out the final values
 	CL_FinishMove( &cmd );
@@ -639,11 +639,25 @@ void CL_CreateNewCommands( void ) {
 	}
 	old_com_frameTime = com_frameTime;
 
+	if (!com_virtualClient->integer) {
+		// generate a command for this frame
+		cl.cmdNumber++;
+		cmdNum = cl.cmdNumber & CMD_MASK;
+		cl.cmds[cmdNum] = CL_CreateCmd();
+	}
+}
 
-	// generate a command for this frame
-	cl.cmdNumber++;
-	cmdNum = cl.cmdNumber & CMD_MASK;
-	cl.cmds[cmdNum] = CL_CreateCmd ();
+void CL_AddUserCommand ( void *cmd ) {
+	usercmd_t* command;
+	int cmdNum;
+
+	command = (usercmd_t*)cmd;
+
+	if (command) {
+		cl.cmdNumber++;
+		cmdNum = cl.cmdNumber & CMD_MASK;
+		memcpy(&cl.cmds[cmdNum], cmd, sizeof(usercmd_t));
+	}
 }
 
 /*

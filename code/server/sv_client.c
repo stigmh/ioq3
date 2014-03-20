@@ -1654,13 +1654,17 @@ Also called by bot code
 ==================
 */
 void SV_ClientThink (client_t *cl, usercmd_t *cmd) {
+	if (com_virtualClient->integer) {
+		CL_AddUserCommand(cmd);
+	}
+	
 	cl->lastUsercmd = *cmd;
 
-	if ( cl->state != CS_ACTIVE ) {
+	if (cl->state != CS_ACTIVE) {
 		return;		// may have been kicked during the last usercmd
 	}
 
-	VM_Call( gvm, GAME_CLIENT_THINK, cl - svs.clients );
+	VM_Call(gvm, GAME_CLIENT_THINK, cl - svs.clients);
 }
 
 /*
