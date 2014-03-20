@@ -35,3 +35,5 @@ void IN_Restart( void ) {
 void Sys_SendKeyEvents (void) {
 }
 
+void CL_AddUserCommand(void *cmd) {
+}
