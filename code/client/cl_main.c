@@ -2936,7 +2936,7 @@ void CL_Frame ( int msec ) {
 		// if disconnected
 		S_StopAllSounds();
 		VM_Call(uivm, UI_SET_ACTIVE_MENU, UIMENU_MAIN);
-	} else if (clc.state == CA_PRIMED && com_virtualClient->integer
+	}/* else if (clc.state == CA_PRIMED && com_virtualClient->integer
 		&& !com_sv_running->integer && (cl.gameState.dataCount > 0)) {
 		// Retrieve server info from the actual remote server
 		char *serverInfo;
@@ -2976,7 +2976,7 @@ void CL_Frame ( int msec ) {
 		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
 		Cbuf_ExecuteText(EXEC_APPEND,
 			va("Addbot %s %f %s %i %s\n", botname, 4.f, Cvar_VariableString("team"), 0, Cvar_VariableString("name")));
-	}
+	}*/
 
 	// if recording an avi, lock to a fixed fps
 	if ( CL_VideoRecording( ) && cl_aviFrameRate->integer && msec) {

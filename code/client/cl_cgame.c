@@ -897,6 +897,8 @@ void CL_FirstSnapshot( void ) {
 		Cvar_Set( "activeAction", "" );
 	}
 
+	SV_SetVirtualPlayerState(&cl.snap.ps);
+
 #ifdef USE_MUMBLE
 	if ((cl_useMumble->integer) && !mumble_islinked()) {
 		int ret = mumble_link(CLIENT_WINDOW_TITLE);
