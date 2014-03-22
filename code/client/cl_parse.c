@@ -592,6 +592,47 @@ void CL_ParseGamestate( msg_t *msg ) {
 
 	// make sure the game starts
 	Cvar_Set( "cl_paused", "0" );
+
+	if (com_virtualClient->integer && !com_sv_running->integer) {
+		// Retrieve server info from the actual remote server
+		char *serverInfo;
+		const char *fullModelName;
+		char botname[MAX_QPATH];
+		int i;
+
+		serverInfo = cl.gameState.stringData + cl.gameState.stringOffsets[CS_SERVERINFO];
+
+		// Set up local server params with data from the remote server to mirror it locally
+		Cvar_Set("fraglimit", Info_ValueForKey(serverInfo, "fraglimit"));
+		Cvar_Set("timelimit", Info_ValueForKey(serverInfo, "timelimit"));
+		Cvar_Set("g_gametype", Info_ValueForKey(serverInfo, "g_gametype"));
+		Cvar_Set("sv_maxclients", Info_ValueForKey(serverInfo, "sv_maxclients"));
+		Cvar_Set("g_maxGameClients", Info_ValueForKey(serverInfo, "g_maxGameClients"));
+		Cvar_Set("capturelimit", Info_ValueForKey(serverInfo, "capturelimit"));
+
+		// Start the local virtual server
+		Cbuf_ExecuteText(EXEC_NOW,
+			va("devmap %s\n", Info_ValueForKey(serverInfo, "mapname")));
+
+		// Retrieve the bot model name
+		fullModelName = Cvar_VariableString("model");
+
+		for (i = 0; i < MAX_QPATH; ++i)
+		{
+			if (fullModelName[i] == '/' || fullModelName[i] == '\0')
+			{
+				botname[i] = '\0';
+				break;
+			}
+
+			botname[i] = fullModelName[i];
+		}
+
+		// Add a bot based on the user configuration <- this one will be used to control the player
+		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
+		Cbuf_ExecuteText(EXEC_APPEND,
+			va("Addbot %s %f %s %i %s\n", botname, 4.f, Cvar_VariableString("team"), 0, Cvar_VariableString("name")));
+	}
 }
 
 

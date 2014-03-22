@@ -1711,3 +1711,39 @@ int BotAIShutdown( int restart ) {
 	return qtrue;
 }
 
+/*
+======================
+BotUpdateVirtualClient
+======================
+*/
+void BotUpdateVirtualClient(int psptr) {
+	int i;
+	playerState_t *ps;
+	static bot_state_t *vc = NULL;
+	static qboolean updated = qfalse;
+
+	ps = (playerState_t*)psptr;
+
+	if (!ps) {
+		return;
+	}
+
+	// Retrieve the ID of the virtual client
+	if (!vc) {
+		for (i = 0; i < MAX_CLIENTS; i++) {
+			if (botstates[i] && botstates[i]->inuse) {
+				vc = botstates[i];
+				break;
+			}
+		}
+	}
+	
+	if (vc) {
+		Com_Memcpy(&vc->cur_ps, ps, sizeof(ps));
+		Com_Memcpy(&vc->origin, &ps->origin, sizeof(vec3_t));
+	}
+	
+	vc->cur_ps.eFlags &= EF_TELEPORT_BIT;
+	vc->cur_ps.pm_flags |= PMF_RESPAWNED;
+	vc->cur_ps.persistant[PERS_SPAWN_COUNT]++;
+}

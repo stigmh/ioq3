@@ -1312,11 +1312,15 @@ void MSG_ReadDeltaPlayerstate (msg_t *msg, playerState_t *from, playerState_t *t
 	int			print;
 	int			*fromF, *toF;
 	int			trunc;
+	int			updateVC;
 	playerState_t	dummy;
+
+	updateVC = 0;
 
 	if ( !from ) {
 		from = &dummy;
 		Com_Memset( &dummy, 0, sizeof( dummy ) );
+		updateVC = 1;
 	}
 	*to = *from;
 
