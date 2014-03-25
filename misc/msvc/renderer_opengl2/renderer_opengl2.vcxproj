@@ -157,6 +157,7 @@ if not exist ..\..\..\build\dynamic\renderergl2 mkdir ..\..\..\build\dynamic\ren
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>dxguid.lib;user32.lib;advapi32.lib;winmm.lib;wsock32.lib;ws2_32.lib;OpenGL32.lib;psapi.lib;mscv\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\build\renderer_opengl2_release\renderer_opengl2_x86.lib</ImportLibrary>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PreBuildEvent>
       <Command>if not exist ..\..\..\build\dynamic mkdir ..\..\..\build\dynamic
