@@ -1042,7 +1042,7 @@ void SV_PacketEvent( netadr_t from, msg_t *msg );
 int SV_FrameMsec(void);
 qboolean SV_GameCommand( void );
 int SV_SendQueuedPackets(void);
-void SV_SetVirtualPlayerState( playerState_t *ps );
+void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps );
 
 //
 // UI interface

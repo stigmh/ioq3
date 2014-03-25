@@ -876,6 +876,7 @@ void SV_PacketEvent( netadr_t from, msg_t *msg ) {
 				SV_ExecuteClientMessage( cl, msg );
 			}
 		}
+		
 		return;
 	}
 }
@@ -994,7 +995,7 @@ static qboolean SV_CheckPaused( void ) {
 	client_t	*cl;
 	int		i;
 
-	if ( !cl_paused->integer ) {
+	if ( !cl_paused->integer || com_virtualClient->integer ) {
 		return qfalse;
 	}
 
@@ -1293,3 +1294,45 @@ int SV_SendQueuedPackets()
 
 	return timeVal;
 }
+
+/*
+========================
+SV_SetVirtualPlayerState
+========================
+*/
+void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps ) {
+	//int i;
+	static int initialized = 0;
+	
+	if (!com_sv_running->integer || !com_virtualClient->integer || initialized) {
+		return;
+	}
+
+	initialized = 1;
+	//svs.time = serverTime;
+	
+	// sharedEntity_t* sv.gentities
+	// playerState_t* sv.gameClients
+	// svEntity_t* sv.svEntities
+	/*
+	for (i = 0; i < numEntities; ++i) {
+		entityState_t *ent = &entities[i];
+		
+		if (ent->eType > ET_EVENTS) {
+			// Add a bot based on the user configuration <- this one will be used to control the player
+			//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
+*/
+			//Cbuf_ExecuteText(EXEC_APPEND,
+				//va("Addbot %s %f %s %i %s\n", "sarge", 4.f, "0", 0, "VirtualClient"));
+			// Sjekk sv.gameClientSize
+			/*if (sv.gameClients) {
+				Com_Memcpy(sv.gameClients, ps, sizeof(ps));
+			}*/
+
+	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
+			/*
+			break;
+		}
+	}*/
+}
+

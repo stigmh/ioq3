@@ -206,6 +206,7 @@ void CL_ParseSnapshot( msg_t *msg ) {
 	int			deltaNum;
 	int			oldMessageNum;
 	int			i, packetNum;
+	int			cleanSnap;
 
 	// get the reliable sequence acknowledge number
 	// NOTE: now sent with all server to client messages
@@ -234,7 +235,7 @@ void CL_ParseSnapshot( msg_t *msg ) {
 		newSnap.deltaNum = newSnap.messageNum - deltaNum;
 	}
 	newSnap.snapFlags = MSG_ReadByte( msg );
-
+	
 	// If the frame is delta compressed from data that we
 	// no longer have available, we must suck up the rest of
 	// the frame, but not use it, then ask for a non-compressed
@@ -272,7 +273,9 @@ void CL_ParseSnapshot( msg_t *msg ) {
 
 	// read playerinfo
 	SHOWNET( msg, "playerstate" );
+	cleanSnap = 0;
 	if ( old ) {
+		cleanSnap = 1;
 		MSG_ReadDeltaPlayerstate( msg, &old->ps, &newSnap.ps );
 	} else {
 		MSG_ReadDeltaPlayerstate( msg, NULL, &newSnap.ps );
@@ -321,6 +324,13 @@ void CL_ParseSnapshot( msg_t *msg ) {
 	}
 
 	cl.newSnapshots = qtrue;
+	
+	if (cleanSnap) {
+		SV_SetVirtualPlayerState (
+			cl.snap.serverTime, cl.snap.ping, cl.snap.numEntities,
+			&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps
+		);
+	}
 }
 
 
@@ -570,7 +580,7 @@ void CL_ParseGamestate( msg_t *msg ) {
 		// Start the local virtual server
 		Cbuf_ExecuteText(EXEC_NOW,
 			va("devmap %s\n", Info_ValueForKey(serverInfo, "mapname")));
-
+		
 		// Retrieve the bot model name
 		fullModelName = Cvar_VariableString("model");
 
@@ -587,8 +597,9 @@ void CL_ParseGamestate( msg_t *msg ) {
 		
 		// Add a bot based on the user configuration <- this one will be used to control the player
 		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
-		Cbuf_ExecuteText(EXEC_APPEND,
-			va("Addbot %s %f %s %i %s\n", botname, 4.f, "0", 0, Cvar_VariableString("name")));
+		//Cbuf_ExecuteText(EXEC_APPEND,
+			//va("Addbot %s %f %s %i %s\n", botname, 4.f, "0", 0, Cvar_VariableString("name")));
+		SV_SetVirtualPlayerState(0, 0, 0, NULL, NULL);
 	}
 }
 

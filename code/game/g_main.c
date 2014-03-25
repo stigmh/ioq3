@@ -188,7 +188,6 @@ void G_RunFrame( int levelTime );
 void G_ShutdownGame( int restart );
 void CheckExitRules( void );
 
-
 /*
 ================
 vmMain
@@ -217,7 +216,7 @@ Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, i
 		ClientDisconnect( arg0 );
 		return 0;
 	case GAME_CLIENT_BEGIN:
-		ClientBegin( arg0 );
+		ClientBegin( arg0, NULL );
 		return 0;
 	case GAME_CLIENT_COMMAND:
 		ClientCommand( arg0 );
@@ -231,6 +230,9 @@ Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, i
 		return BotAIStartFrame( arg0 );
 	case GAME_UPDATE_VIRTUALCLIENT:
 		BotUpdateVirtualClient( arg0 );
+		return 0;
+	case GAME_ADD_VIRTUALCLIENT:
+		G_AddBot( (const char*) arg0, (float) arg1, (const char*) arg2, arg3, (char*) arg4, (playerState_t*) arg5 );
 		return 0;
 	}
 

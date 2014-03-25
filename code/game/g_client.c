@@ -530,7 +530,7 @@ ClientRespawn
 void ClientRespawn( gentity_t *ent ) {
 
 	CopyToBodyQue (ent);
-	ClientSpawn(ent);
+	ClientSpawn(ent, NULL);
 }
 
 /*
@@ -1004,7 +1004,7 @@ to be placed into the level.  This will happen every level load,
 and on transition between teams, but doesn't happen on respawns
 ============
 */
-void ClientBegin( int clientNum ) {
+void ClientBegin( int clientNum, playerState_t *ps ) {
 	gentity_t	*ent;
 	gclient_t	*client;
 	int			flags;
@@ -1035,7 +1035,7 @@ void ClientBegin( int clientNum ) {
 	client->ps.eFlags = flags;
 
 	// locate ent at a spawn point
-	ClientSpawn( ent );
+	ClientSpawn( ent, ps );
 
 	if ( client->sess.sessionTeam != TEAM_SPECTATOR ) {
 		if ( g_gametype.integer != GT_TOURNAMENT  ) {
@@ -1057,7 +1057,7 @@ after the first ClientBegin, and after each respawn
 Initializes all non-persistant parts of playerState
 ============
 */
-void ClientSpawn(gentity_t *ent) {
+void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 	int		index;
 	vec3_t	spawn_origin, spawn_angles;
 	gclient_t	*client;
@@ -1077,39 +1077,49 @@ void ClientSpawn(gentity_t *ent) {
 	index = ent - g_entities;
 	client = ent->client;
 
-	VectorClear(spawn_origin);
+	if (ps) {
+		Com_Memcpy(spawn_origin, ps->origin, sizeof(vec3_t));
+		//Com_Memcpy(spawn_angles, ps->delta_angles, sizeof(vec3_t));
+		spawn_angles[0] = ps->delta_angles[0];
+		spawn_angles[1] = ps->delta_angles[1];
+		spawn_angles[2] = ps->delta_angles[2];
+	} else {
+		VectorClear(spawn_origin);
 
-	// find a spawn point
-	// do it before setting health back up, so farthest
-	// ranging doesn't count this client
-	if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
-		spawnPoint = SelectSpectatorSpawnPoint ( 
-						spawn_origin, spawn_angles);
-	} else if (g_gametype.integer >= GT_CTF ) {
-		// all base oriented team games use the CTF spawn points
-		spawnPoint = SelectCTFSpawnPoint ( 
-						client->sess.sessionTeam, 
-						client->pers.teamState.state, 
-						spawn_origin, spawn_angles,
-						!!(ent->r.svFlags & SVF_BOT));
-	}
-	else
-	{
-		// the first spawn should be at a good looking spot
-		if ( !client->pers.initialSpawn && client->pers.localClient )
-		{
-			client->pers.initialSpawn = qtrue;
-			spawnPoint = SelectInitialSpawnPoint(spawn_origin, spawn_angles,
-							     !!(ent->r.svFlags & SVF_BOT));
+		// find a spawn point
+		// do it before setting health back up, so farthest
+		// ranging doesn't count this client
+		if (client->sess.sessionTeam == TEAM_SPECTATOR) {
+			spawnPoint = SelectSpectatorSpawnPoint(
+				spawn_origin, spawn_angles);
+		}
+		else if (g_gametype.integer >= GT_CTF) {
+			// all base oriented team games use the CTF spawn points
+			spawnPoint = SelectCTFSpawnPoint(
+				client->sess.sessionTeam,
+				client->pers.teamState.state,
+				spawn_origin, spawn_angles,
+				!!(ent->r.svFlags & SVF_BOT));
 		}
 		else
 		{
-			// don't spawn near existing origin if possible
-			spawnPoint = SelectSpawnPoint ( 
-				client->ps.origin, 
-				spawn_origin, spawn_angles, !!(ent->r.svFlags & SVF_BOT));
+			// the first spawn should be at a good looking spot
+			if (!client->pers.initialSpawn && client->pers.localClient)
+			{
+				client->pers.initialSpawn = qtrue;
+				spawnPoint = SelectInitialSpawnPoint(spawn_origin, spawn_angles,
+					!!(ent->r.svFlags & SVF_BOT));
+			}
+			else
+			{
+				// don't spawn near existing origin if possible
+				spawnPoint = SelectSpawnPoint(
+					client->ps.origin,
+					spawn_origin, spawn_angles, !!(ent->r.svFlags & SVF_BOT));
+			}
 		}
 	}
+
 	client->pers.teamState.state = TEAM_ACTIVE;
 
 	// always clear the kamikaze flag
@@ -1192,7 +1202,11 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.ammo[WP_GRAPPLING_HOOK] = -1;
 
 	// health will count down towards max_health
-	ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] + 25;
+	if (ps) {
+		ent->health = client->ps.stats[STAT_HEALTH] = ps->stats[STAT_HEALTH];
+	} else {
+		ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] + 25;
+	}
 
 	G_SetOrigin( ent, spawn_origin );
 	VectorCopy( spawn_origin, client->ps.origin );

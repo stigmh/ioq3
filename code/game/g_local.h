@@ -569,7 +569,7 @@ void CopyToBodyQue( gentity_t *ent );
 void ClientRespawn(gentity_t *ent);
 void BeginIntermission (void);
 void InitBodyQue (void);
-void ClientSpawn( gentity_t *ent );
+void ClientSpawn( gentity_t *ent, playerState_t *ps );
 void player_die (gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod);
 void AddScore( gentity_t *ent, vec3_t origin, int score );
 void CalculateRanks( void );
@@ -615,7 +615,7 @@ void QDECL G_Error( const char *fmt, ... ) __attribute__ ((noreturn, format (pri
 char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot );
 void ClientUserinfoChanged( int clientNum );
 void ClientDisconnect( int clientNum );
-void ClientBegin( int clientNum );
+void ClientBegin( int clientNum, playerState_t *ps );
 void ClientCommand( int clientNum );
 
 //
@@ -659,6 +659,7 @@ void Svcmd_AbortPodium_f( void );
 // g_bot.c
 //
 void G_InitBots( qboolean restart );
+void G_AddBot( const char *name, float skill, const char *team, int delay, char *altname, playerState_t* ps );
 char *G_GetBotInfoByNumber( int num );
 char *G_GetBotInfoByName( const char *name );
 void G_CheckBotSpawn( void );

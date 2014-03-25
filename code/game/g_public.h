@@ -426,6 +426,7 @@ typedef enum {
 	// and parameters.  Return qfalse if the game doesn't recognize it as a command.
 
 	BOTAI_START_FRAME,				// ( int time );
-	GAME_UPDATE_VIRTUALCLIENT
+	GAME_UPDATE_VIRTUALCLIENT,
+	GAME_ADD_VIRTUALCLIENT
 } gameExport_t;
 

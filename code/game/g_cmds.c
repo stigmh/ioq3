@@ -633,7 +633,7 @@ void SetTeam( gentity_t *ent, char *s ) {
 	// get and distribute relevent paramters
 	ClientUserinfoChanged( clientNum );
 
-	ClientBegin( clientNum );
+	ClientBegin( clientNum, NULL );
 }
 
 /*

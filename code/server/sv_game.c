@@ -954,17 +954,3 @@ qboolean SV_GameCommand( void ) {
 
 	return VM_Call( gvm, GAME_CONSOLE_COMMAND );
 }
-
-/*
-========================
-SV_SetVirtualPlayerState
-========================
-*/
-void SV_SetVirtualPlayerState(playerState_t *ps) {
-	if (!com_sv_running->integer || !com_virtualClient->integer) {
-		return;
-	}
-
-	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ps);
-}
-

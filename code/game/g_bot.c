@@ -477,7 +477,7 @@ void G_CheckBotSpawn( void ) {
 		if ( botSpawnQueue[n].spawnTime > level.time ) {
 			continue;
 		}
-		ClientBegin( botSpawnQueue[n].clientNum );
+		ClientBegin( botSpawnQueue[n].clientNum, NULL );
 		botSpawnQueue[n].spawnTime = 0;
 
 		if( g_gametype.integer == GT_SINGLE_PLAYER ) {
@@ -505,7 +505,7 @@ static void AddBotToSpawnQueue( int clientNum, int delay ) {
 	}
 
 	G_Printf( S_COLOR_YELLOW "Unable to delay spawn\n" );
-	ClientBegin( clientNum );
+	ClientBegin( clientNum, NULL );
 }
 
 
@@ -558,7 +558,7 @@ qboolean G_BotConnect( int clientNum, qboolean restart ) {
 G_AddBot
 ===============
 */
-static void G_AddBot( const char *name, float skill, const char *team, int delay, char *altname) {
+void G_AddBot(const char *name, float skill, const char *team, int delay, char *altname, playerState_t* ps ) {
 	int				clientNum;
 	char			*botinfo;
 	char			*key;
@@ -681,7 +681,7 @@ static void G_AddBot( const char *name, float skill, const char *team, int delay
 	}
 
 	if( delay == 0 ) {
-		ClientBegin( clientNum );
+		ClientBegin( clientNum, ps );
 		return;
 	}
 
@@ -738,7 +738,7 @@ void Svcmd_AddBot_f( void ) {
 	// alternative name
 	trap_Argv( 5, altname, sizeof( altname ) );
 
-	G_AddBot( name, skill, team, delay, altname );
+	G_AddBot( name, skill, team, delay, altname, NULL );
 
 	// if this was issued during gameplay and we are playing locally,
 	// go ahead and load the bot's media immediately
