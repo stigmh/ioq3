@@ -174,7 +174,7 @@ void UI_DrawConnectScreen( qboolean overlay ) {
 
 	// see what information we should display
 	trap_GetClientState( &cstate );
-
+	
 	info[0] = '\0';
 	if( trap_GetConfigString( CS_SERVERINFO, info, sizeof(info) ) ) {
 		UI_DrawProportionalString( 320, 16, va( "Loading %s", Info_ValueForKey( info, "mapname" ) ), UI_BIGFONT|UI_CENTER|UI_DROPSHADOW, color_white );

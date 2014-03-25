@@ -58,6 +58,7 @@ fileHandle_t	com_journalDataFile;		// config files are written here
 cvar_t	*com_speeds;
 cvar_t	*com_developer;
 cvar_t	*com_dedicated;
+cvar_t	*com_virtualClient;
 cvar_t	*com_timescale;
 cvar_t	*com_fixedtime;
 cvar_t	*com_journal;
@@ -2713,6 +2714,11 @@ void Com_Init( char *commandLine ) {
 	com_dedicated = Cvar_Get ("dedicated", "0", CVAR_LATCH);
 	Cvar_CheckRange( com_dedicated, 0, 2, qtrue );
 #endif
+
+	// get virtualClient
+	com_virtualClient = Cvar_Get("virtualClient", "0", CVAR_LATCH);
+	Cvar_CheckRange(com_virtualClient, 0, 1, qtrue);
+
 	// allocate the stack based hunk allocator
 	Com_InitHunkMemory();
 
@@ -2803,7 +2809,7 @@ void Com_Init( char *commandLine ) {
 	// add + commands from command line
 	if ( !Com_AddStartupCommands() ) {
 		// if the user didn't give any commands, run default action
-		if ( !com_dedicated->integer ) {
+		if ( !com_dedicated->integer && !com_virtualClient->integer ) {
 			Cbuf_AddText ("cinematic idlogo.RoQ\n");
 			if( !com_introPlayed->integer ) {
 				Cvar_Set( com_introPlayed->name, "1" );

@@ -897,6 +897,8 @@ void CL_FirstSnapshot( void ) {
 		Cvar_Set( "activeAction", "" );
 	}
 
+	SV_SetVirtualPlayerState(&cl.snap.ps);
+
 #ifdef USE_MUMBLE
 	if ((cl_useMumble->integer) && !mumble_islinked()) {
 		int ret = mumble_link(CLIENT_WINDOW_TITLE);
@@ -979,7 +981,7 @@ void CL_SetCGameTime( void ) {
 	}
 
 	// allow pause in single player
-	if ( sv_paused->integer && CL_CheckPaused() && com_sv_running->integer ) {
+	if ( sv_paused->integer && CL_CheckPaused() && com_sv_running->integer && !com_virtualClient->integer ) {
 		// paused
 		return;
 	}

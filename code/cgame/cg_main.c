@@ -342,7 +342,7 @@ void CG_RegisterCvars( void ) {
 	cgs.localServer = atoi( var );
 
 	// Check whether we're running as a virtual client
-	trap_Cvar_VariableStringBuffer("cl_virtualClient", var, sizeof(var));
+	trap_Cvar_VariableStringBuffer("virtualClient", var, sizeof(var));
 	cgs.virtualClient = (qboolean)atoi(var);
 
 	forceModelModificationCount = cg_forceModel.modificationCount;

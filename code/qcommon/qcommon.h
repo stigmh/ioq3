@@ -841,6 +841,7 @@ void		Com_StartupVariable( const char *match );
 
 extern	cvar_t	*com_developer;
 extern	cvar_t	*com_dedicated;
+extern	cvar_t	*com_virtualClient;
 extern	cvar_t	*com_speeds;
 extern	cvar_t	*com_timescale;
 extern	cvar_t	*com_sv_running;
@@ -1015,6 +1016,8 @@ void CL_StartHunkUsers( qboolean rendererOnly );
 void CL_Snd_Shutdown(void);
 // Restart sound subsystem
 
+void CL_AddUserCommand( void *cmd );
+
 void Key_KeynameCompletion( void(*callback)(const char *s) );
 // for keyname autocompletion
 
@@ -1039,6 +1042,7 @@ void SV_PacketEvent( netadr_t from, msg_t *msg );
 int SV_FrameMsec(void);
 qboolean SV_GameCommand( void );
 int SV_SendQueuedPackets(void);
+void SV_SetVirtualPlayerState( playerState_t *ps );
 
 //
 // UI interface
