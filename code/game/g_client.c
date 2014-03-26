@@ -1046,6 +1046,22 @@ void ClientBegin( int clientNum, playerState_t *ps ) {
 
 	// count current clients and rank for scoreboard
 	CalculateRanks();
+	
+	Com_Printf("----- Spawned new client -----\n - entityState_s:\n\t pos trBase: [%f %f %f]\n\t pos trDelta: [%f %f %f]\n\tapos trBase: [%f %f %f]\n\tapos trDelta: [%f %f %f]\n - entityState_s origins/deltas:\n\torigin1: [%f %f %f]\n\torigin2: [%f %f %f]\n\tangles1: [%f %f %f]\n\tangles2: [%f %f %f]\n - entityState_r:\n\tcur origin: [%f %f %f]\n\tcur angles: [%f %f %f]\n - playerState:\n\t      origin: [%f %f %f]\n\t view angles: [%f %f %f]\n\tdelta angles: [%d %d %d]\n",
+		ent->s.pos.trBase[0], ent->s.pos.trBase[1], ent->s.pos.trBase[2], //ent->s.angles?
+		ent->s.pos.trDelta[0], ent->s.pos.trDelta[1], ent->s.pos.trDelta[2],
+		ent->s.apos.trBase[0], ent->s.apos.trBase[1], ent->s.apos.trBase[2],
+		ent->s.apos.trDelta[0], ent->s.apos.trDelta[1], ent->s.apos.trDelta[2],
+		ent->s.origin[0], ent->s.origin[1], ent->s.origin[2],
+		ent->s.origin2[0], ent->s.origin2[1], ent->s.origin2[2],
+		ent->s.angles[0], ent->s.angles[1], ent->s.angles[2],
+		ent->s.angles2[0], ent->s.angles2[1], ent->s.angles2[2],
+		ent->r.currentOrigin[0], ent->r.currentOrigin[1], ent->r.currentOrigin[2],
+		ent->r.currentAngles[0], ent->r.currentAngles[1], ent->r.currentAngles[2],
+		client->ps.origin[0], client->ps.origin[1], client->ps.origin[2],
+		client->ps.viewangles[0], client->ps.viewangles[1], client->ps.viewangles[2],
+		client->ps.delta_angles[0], client->ps.delta_angles[1], client->ps.delta_angles[2]
+	);
 }
 
 /*
@@ -1078,11 +1094,8 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 	client = ent->client;
 
 	if (ps) {
-		Com_Memcpy(spawn_origin, ps->origin, sizeof(vec3_t));
-		//Com_Memcpy(spawn_angles, ps->delta_angles, sizeof(vec3_t));
-		spawn_angles[0] = ps->delta_angles[0];
-		spawn_angles[1] = ps->delta_angles[1];
-		spawn_angles[2] = ps->delta_angles[2];
+		VectorCopy(ps->origin, spawn_origin);
+		VectorCopy(ps->viewangles, spawn_angles);
 	} else {
 		VectorClear(spawn_origin);
 
@@ -1257,6 +1270,7 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 		// move players to intermission
 		MoveClientToIntermission(ent);
 	}
+
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
 	client->ps.commandTime = level.time - 100;
@@ -1266,6 +1280,11 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 	// until all clients have been reconnected after map_restart
 	if ( ent->client->sess.spectatorState != SPECTATOR_FOLLOW ) {
 		ClientEndFrame( ent );
+	}
+
+	if (ps) {
+		VectorCopy(ps->origin, ent->r.currentOrigin);
+		//VectorCopy(ps->viewangles, ent->r.currentAngles);
 	}
 
 	// clear entity state values

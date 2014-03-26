@@ -324,8 +324,10 @@ void CL_ParseSnapshot( msg_t *msg ) {
 	}
 
 	cl.newSnapshots = qtrue;
-	
+
 	if (cleanSnap) {
+		//entityState_t *cal = &cl.entityBaselines[cl.snap.ps.clientNum];
+		
 		SV_SetVirtualPlayerState (
 			cl.snap.serverTime, cl.snap.ping, cl.snap.numEntities,
 			&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps
@@ -599,7 +601,7 @@ void CL_ParseGamestate( msg_t *msg ) {
 		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
 		//Cbuf_ExecuteText(EXEC_APPEND,
 			//va("Addbot %s %f %s %i %s\n", botname, 4.f, "0", 0, Cvar_VariableString("name")));
-		SV_SetVirtualPlayerState(0, 0, 0, NULL, NULL);
+		//SV_SetVirtualPlayerState(0, 0, 0, NULL, NULL);
 	}
 }
 

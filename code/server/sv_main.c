@@ -1163,6 +1163,18 @@ void SV_Frame( int msec ) {
 
 	// send a heartbeat to the master if needed
 	SV_MasterHeartbeat(HEARTBEAT_FOR_MASTER);
+	/*
+	for (int i = 0; i < sv_maxclients->integer; ++i) {
+		client_t *cl = &svs.clients[i];
+
+		if (cl->gentity) {
+			entityState_t *s = &cl->gentity->s;
+
+			if (s->eType == ET_PLAYER) {
+				Com_Printf("--- PLAYER FOUND!");
+			}
+		}
+	}*/
 }
 
 /*
@@ -1301,7 +1313,7 @@ SV_SetVirtualPlayerState
 ========================
 */
 void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps ) {
-	//int i;
+	int i;
 	static int initialized = 0;
 	
 	if (!com_sv_running->integer || !com_virtualClient->integer || initialized) {
@@ -1309,11 +1321,13 @@ void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entity
 	}
 
 	initialized = 1;
-	//svs.time = serverTime;
+	svs.time = serverTime;
 	
-	// sharedEntity_t* sv.gentities
-	// playerState_t* sv.gameClients
-	// svEntity_t* sv.svEntities
+	//svs.clients
+	//sv.gameClients
+	//sharedEntity_t *sv.gentities
+	//svEntity_t sv.svEntities <- hoppesover
+
 	/*
 	for (i = 0; i < numEntities; ++i) {
 		entityState_t *ent = &entities[i];
@@ -1329,7 +1343,46 @@ void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entity
 				Com_Memcpy(sv.gameClients, ps, sizeof(ps));
 			}*/
 
+	//for (i = 0; i < numEntities; ++i) {
+	//}
+	
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
+	/*
+	for (i = 0; i < sv_maxclients->integer; ++i) {
+		client_t *cl = &svs.clients[i];
+		
+		if (cl->gentity && cl->gentity->s.eType == ET_PLAYER) {
+			entityState_t *s = &cl->gentity->s;
+			entityState_t *ent = &entities[i];
+			entityShared_t *r = &cl->gentity->r;
+
+			Com_Printf("----- Found client %s #%d (%d) at\n\tstartpos pos.trBase[%f %f %f]\n\tangles apos.trBase[%f %f %f]---\n",
+				cl->name, s->number, i,
+				s->pos.trBase[0], s->pos.trBase[1], s->pos.trBase[2],
+				s->apos.trBase[0], s->apos.trBase[1], s->apos.trBase[2]
+			);
+
+			Com_Printf("----- SNAPPY client %s #%d (%d) at\n\tstartpos pos.trBase[%f %f %f]\n\tangles apos.trBase[%f %f %f]---\n",
+				cl->name, ent->number, i,
+				ent->pos.trBase[0], ent->pos.trBase[1], ent->pos.trBase[2],
+				ent->apos.trBase[0], ent->apos.trBase[1], ent->apos.trBase[2]
+				);
+
+			Com_Printf("----- Shared %s #%d (%d) at\n\tcurrent origin[%f %f %f]\n\tcurrent angles[%f %f %f]---\n",
+				cl->name, s->number, i,
+				r->currentOrigin[0], r->currentOrigin[1], r->currentOrigin[2],
+				r->currentAngles[0], r->currentAngles[1], r->currentAngles[2]
+				);
+
+			break;
+		}
+	}
+	*/
+	/*
+	for (i = 0; i < numEntities; ++i)
+	{
+		entityState_t *ent = &entities[i];
+	}*/
 			/*
 			break;
 		}

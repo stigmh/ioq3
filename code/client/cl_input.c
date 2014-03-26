@@ -639,7 +639,7 @@ void CL_CreateNewCommands( void ) {
 	}
 	old_com_frameTime = com_frameTime;
 	
-	if (!com_virtualClient->integer) {
+	if ( !com_virtualClient->integer || clc.state != CA_ACTIVE ) {
 		// generate a command for this frame
 		cl.cmdNumber++;
 		cmdNum = cl.cmdNumber & CMD_MASK;
