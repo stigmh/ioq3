@@ -1271,6 +1271,11 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 		MoveClientToIntermission(ent);
 	}
 
+	if (ps) {
+		VectorCopy(ps->origin, ent->r.currentOrigin);
+		//VectorCopy(ps->viewangles, ent->r.currentAngles);
+	}
+
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
 	client->ps.commandTime = level.time - 100;
@@ -1280,11 +1285,6 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 	// until all clients have been reconnected after map_restart
 	if ( ent->client->sess.spectatorState != SPECTATOR_FOLLOW ) {
 		ClientEndFrame( ent );
-	}
-
-	if (ps) {
-		VectorCopy(ps->origin, ent->r.currentOrigin);
-		//VectorCopy(ps->viewangles, ent->r.currentAngles);
 	}
 
 	// clear entity state values
