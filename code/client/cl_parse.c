@@ -561,7 +561,15 @@ void CL_ParseGamestate( msg_t *msg ) {
 
 	// make sure the game starts
 	Cvar_Set( "cl_paused", "0" );
+	/*
+	for (i = 0; i < MAX_GENTITIES; ++i) {
+		entityState_t* ent = &cl.entityBaselines[i];
 
+		if (ent->eType > ET_GENERAL) {
+			Com_Printf("-------- CL Found entity #%d (%d), type: %d, clientNum: %d, origin: [%f %f %f]\n", ent->number, i, ent->eType, ent->clientNum, ent->origin[0], ent->origin[1], ent->origin[2]);
+		}
+	}
+	*/
 	if (com_virtualClient->integer && !com_sv_running->integer) {
 		// Retrieve server info from the actual remote server
 		char *serverInfo;
