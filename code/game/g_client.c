@@ -1093,44 +1093,50 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 	index = ent - g_entities;
 	client = ent->client;
 
-	if (ps) {
-		VectorCopy(ps->origin, spawn_origin);
-		VectorCopy(ps->viewangles, spawn_angles);
-	} else {
-		VectorClear(spawn_origin);
+	VectorClear(spawn_origin);
 
-		// find a spawn point
-		// do it before setting health back up, so farthest
-		// ranging doesn't count this client
-		if (client->sess.sessionTeam == TEAM_SPECTATOR) {
-			spawnPoint = SelectSpectatorSpawnPoint(
-				spawn_origin, spawn_angles);
-		}
-		else if (g_gametype.integer >= GT_CTF) {
-			// all base oriented team games use the CTF spawn points
-			spawnPoint = SelectCTFSpawnPoint(
-				client->sess.sessionTeam,
-				client->pers.teamState.state,
-				spawn_origin, spawn_angles,
+	// find a spawn point
+	// do it before setting health back up, so farthest
+	// ranging doesn't count this client
+	if (client->sess.sessionTeam == TEAM_SPECTATOR) {
+		spawnPoint = SelectSpectatorSpawnPoint(
+			spawn_origin, spawn_angles);
+	}
+	else if (g_gametype.integer >= GT_CTF) {
+		// all base oriented team games use the CTF spawn points
+		spawnPoint = SelectCTFSpawnPoint(
+			client->sess.sessionTeam,
+			client->pers.teamState.state,
+			spawn_origin, spawn_angles,
+			!!(ent->r.svFlags & SVF_BOT));
+	}
+	else
+	{
+		// the first spawn should be at a good looking spot
+		if (!client->pers.initialSpawn && client->pers.localClient)
+		{
+			client->pers.initialSpawn = qtrue;
+			spawnPoint = SelectInitialSpawnPoint(spawn_origin, spawn_angles,
 				!!(ent->r.svFlags & SVF_BOT));
 		}
 		else
 		{
-			// the first spawn should be at a good looking spot
-			if (!client->pers.initialSpawn && client->pers.localClient)
-			{
-				client->pers.initialSpawn = qtrue;
-				spawnPoint = SelectInitialSpawnPoint(spawn_origin, spawn_angles,
-					!!(ent->r.svFlags & SVF_BOT));
-			}
-			else
-			{
-				// don't spawn near existing origin if possible
-				spawnPoint = SelectSpawnPoint(
-					client->ps.origin,
-					spawn_origin, spawn_angles, !!(ent->r.svFlags & SVF_BOT));
-			}
+			// don't spawn near existing origin if possible
+			spawnPoint = SelectSpawnPoint(
+				client->ps.origin,
+				spawn_origin, spawn_angles, !!(ent->r.svFlags & SVF_BOT));
 		}
+	}
+
+	if (ps) {
+		VectorCopy(ps->origin, spawn_origin);
+		
+		VectorCopy(spawn_origin, spawnPoint->r.currentOrigin);
+		VectorCopy(spawn_origin, spawnPoint->s.pos.trBase);
+		VectorCopy(spawn_origin, spawnPoint->s.origin);
+
+		VectorCopy(ps->viewangles, spawnPoint->s.angles);
+		VectorCopy(ps->viewangles, spawn_angles);
 	}
 
 	client->pers.teamState.state = TEAM_ACTIVE;
@@ -1271,22 +1277,18 @@ void ClientSpawn(gentity_t *ent, playerState_t *ps) {
 		MoveClientToIntermission(ent);
 	}
 
-	if (ps) {
-		VectorCopy(ps->origin, ent->r.currentOrigin);
-		//VectorCopy(ps->viewangles, ent->r.currentAngles);
+	if (!ps) {
+		// run a client frame to drop exactly to the floor,
+		// initialize animations and other things
+		client->ps.commandTime = level.time - 100;
+		ent->client->pers.cmd.serverTime = level.time;
+		ClientThink(ent - g_entities);
+		// run the presend to set anything else, follow spectators wait
+		// until all clients have been reconnected after map_restart
+		if (ent->client->sess.spectatorState != SPECTATOR_FOLLOW) {
+			ClientEndFrame(ent);
+		}
 	}
-
-	// run a client frame to drop exactly to the floor,
-	// initialize animations and other things
-	client->ps.commandTime = level.time - 100;
-	ent->client->pers.cmd.serverTime = level.time;
-	ClientThink( ent-g_entities );
-	// run the presend to set anything else, follow spectators wait
-	// until all clients have been reconnected after map_restart
-	if ( ent->client->sess.spectatorState != SPECTATOR_FOLLOW ) {
-		ClientEndFrame( ent );
-	}
-
 	// clear entity state values
 	BG_PlayerStateToEntityState( &client->ps, &ent->s, qtrue );
 }
