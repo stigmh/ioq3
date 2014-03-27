@@ -1327,26 +1327,24 @@ void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entity
 	//sv.gameClients
 	//sharedEntity_t *sv.gentities
 	//svEntity_t sv.svEntities <- hoppesover
-
+	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
 	/*
 	for (i = 0; i < numEntities; ++i) {
-		entityState_t *ent = &entities[i];
-		
-		if (ent->eType > ET_EVENTS) {
-			// Add a bot based on the user configuration <- this one will be used to control the player
-			//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
-*/
-			//Cbuf_ExecuteText(EXEC_APPEND,
-				//va("Addbot %s %f %s %i %s\n", "sarge", 4.f, "0", 0, "VirtualClient"));
-			// Sjekk sv.gameClientSize
-			/*if (sv.gameClients) {
-				Com_Memcpy(sv.gameClients, ps, sizeof(ps));
-			}*/
+		if (i >= sv.num_entities)
+			break;
 
-	//for (i = 0; i < numEntities; ++i) {
+		entityState_t* ent = &entities[i];
+		entityShared_t* es = &sv.gentities[ent->number].r;
+
+		VectorCopy(ent->apos.trBase, es->currentAngles);
+		VectorCopy(ent->pos.trBase, es->currentOrigin);
+
+		Com_Memcpy(&sv.gentities[ent->number].s, &entities[i], sizeof(entityState_t));*/
+		/*
+		if (ent->eType > ET_GENERAL) {
+			Com_Printf("-------- LVS Found entity #%d (%d), type: %d, clientNum: %d, origin: [%f %f %f]\n", ent->number, i, ent->eType, ent->clientNum, ent->origin[0], ent->origin[1], ent->origin[2]);
+		}*/
 	//}
-	
-	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
 	/*
 	for (i = 0; i < sv_maxclients->integer; ++i) {
 		client_t *cl = &svs.clients[i];
