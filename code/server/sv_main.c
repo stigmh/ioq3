@@ -64,6 +64,7 @@ cvar_t	*sv_banFile;
 
 serverBan_t serverBans[SERVER_MAXBANS];
 int serverBansCount = 0;
+int virtualClientInitialized = 0;
 
 /*
 =============================================================================
@@ -1309,18 +1310,17 @@ int SV_SendQueuedPackets()
 
 /*
 ========================
-SV_SetVirtualPlayerState
+SV_CreateVirtualPlayer
 ========================
 */
-void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps ) {
+void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
 	int i;
-	static int initialized = 0;
 	
-	if (!com_sv_running->integer || !com_virtualClient->integer || initialized) {
+	if (!com_sv_running->integer || !com_virtualClient->integer || virtualClientInitialized) {
 		return;
 	}
 
-	initialized = 1;
+	virtualClientInitialized = ps->commandTime;
 	svs.time = serverTime;
 	
 	//svs.clients
@@ -1387,3 +1387,33 @@ void SV_SetVirtualPlayerState( int serverTime, int ping, int numEntities, entity
 	}*/
 }
 
+/*
+========================
+SV_SetVirtualPlayerState
+========================
+*/
+void SV_SetVirtualPlayerState(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
+	if (!com_sv_running->integer || !com_virtualClient->integer || !virtualClientInitialized || ps->commandTime == virtualClientInitialized) {
+		return;
+	}
+	
+	svs.time = serverTime;
+	/*
+	sharedEntity_t *sent = &svs.clients->gentity->s;
+
+	sent->r.currentAngles[0] += ps->viewangles[0];
+	sent->r.currentAngles[1] += ps->viewangles[1];
+	sent->r.currentAngles[2] += ps->viewangles[2];
+
+	sent->r.currentOrigin[0] += ps->origin[0];
+	sent->r.currentOrigin[1] += ps->origin[1];
+	sent->r.currentOrigin[2] += ps->origin[2];
+
+	sent->s.origin[0] += ps->origin[0];
+	sent->s.origin[1] += ps->origin[1];
+	sent->s.origin[2] += ps->origin[2];
+
+	sent->s.angles[0] += ps->viewangles[0];
+	sent->s.angles[1] += ps->viewangles[1];
+	sent->s.angles[2] += ps->viewangles[2];*/
+}

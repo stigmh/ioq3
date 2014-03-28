@@ -3038,6 +3038,11 @@ void CL_Frame ( int msec ) {
 	Con_RunConsole();
 
 	cls.framecount++;
+
+	SV_SetVirtualPlayerState(
+		cl.serverTime, 0, cl.snap.numEntities, 
+		&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)],&cl.snap.ps
+	);
 }
 
 

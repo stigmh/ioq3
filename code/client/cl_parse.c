@@ -327,8 +327,7 @@ void CL_ParseSnapshot( msg_t *msg ) {
 
 	if (cleanSnap) {
 		//entityState_t *cal = &cl.entityBaselines[cl.snap.ps.clientNum];
-		
-		SV_SetVirtualPlayerState (
+		SV_CreateVirtualPlayer(
 			cl.snap.serverTime, cl.snap.ping, cl.snap.numEntities,
 			&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps
 		);
