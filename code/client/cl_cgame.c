@@ -82,6 +82,23 @@ int CL_GetCurrentCmdNumber( void ) {
 	return cl.cmdNumber;
 }
 
+/*
+===============
+CL_LocateGameData
+
+===============
+*/
+void CL_LocateGameData(entityState_t* ent) /*(entityState_t *gEnts, int numGEntities, int sizeofGEntity_t,
+	playerState_t *clients, int sizeofGameClient)*/ {
+	/*sv.gentities = gEnts;
+	sv.gentitySize = sizeofGEntity_t;
+	sv.num_entities = numGEntities;
+
+	sv.gameClients = clients;
+	sv.gameClientSize = sizeofGameClient;*/
+	cl.playerState = ent;
+}
+
 
 /*
 ====================
@@ -450,6 +467,9 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 		return 0;
 	case CG_FS_SEEK:
 		return FS_Seek( args[1], args[2], args[3] );
+	case CG_LOCATE_GAME_DATA:
+		CL_LocateGameData( VMA(1) );
+		return 0;
 	case CG_SENDCONSOLECOMMAND:
 		Cbuf_AddText( VMA(1) );
 		return 0;

@@ -1097,7 +1097,7 @@ void SV_Frame( int msec ) {
 
 	sv.timeResidual += msec;
 
-	if (!com_dedicated->integer) SV_BotFrame (sv.time + sv.timeResidual);
+	if (!com_dedicated->integer) SV_BotFrame(sv.time + sv.timeResidual);
 
 	// if time is about to hit the 32nd bit, kick all clients
 	// and clear sv.time, rather
@@ -1314,20 +1314,30 @@ SV_CreateVirtualPlayer
 ========================
 */
 void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
-	int i;
+	//int i;
 	
 	if (!com_sv_running->integer || !com_virtualClient->integer || virtualClientInitialized) {
 		return;
 	}
+	
+	/*
+	  
+	  KANSKJE DET HAR NOE MED AT LOKAL SERVER ACKNOWLEDGER KOMMANDOENE FRA BOTTEN LENGE
+	  FØR FAKTISK SERVER?
+
+	*/
 
 	virtualClientInitialized = ps->commandTime;
-	svs.time = serverTime;
+	//svs.time = serverTime;
 	
 	//svs.clients
 	//sv.gameClients
 	//sharedEntity_t *sv.gentities
 	//svEntity_t sv.svEntities <- hoppesover
+	//Sys_Sleep(750);
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
+	//memcpy(&svs.clients[0].frames[0].ps, ps, sizeof(ps)); - gjør den dårligere
+	
 	/*
 	for (i = 0; i < numEntities; ++i) {
 		if (i >= sv.num_entities)
@@ -1392,12 +1402,25 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 SV_SetVirtualPlayerState
 ========================
 */
-void SV_SetVirtualPlayerState(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
+void SV_SetVirtualPlayerState(int serverTime, entityState_t *es, playerState_t* ps/*int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps*/) {
+	//int i;
+
 	if (!com_sv_running->integer || !com_virtualClient->integer || !virtualClientInitialized || ps->commandTime == virtualClientInitialized) {
 		return;
 	}
+
+	//sv.time = serverTime; makes it worse
 	
-	svs.time = serverTime;
+	//Com_Memcpy(&svs.clients->gentity->s, es, sizeof(entityState_t)); - makes it worse I think
+	//VectorCopy(es->pos.trBase, svs.clients->gentity->r.currentOrigin); - samesame
+	//VectorCopy(es->apos.trBase, svs.clients->gentity->r.currentAngles); - samesame
+
+	// Denne får den til å vri seg, makes it worse
+	//VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ps);
+
+	//svs.time = serverTime;
+	//VM_Call( gvm, GAME_UPDATE_VIRTUALCLIENT, ps );
+	
 	/*
 	sharedEntity_t *sent = &svs.clients->gentity->s;
 

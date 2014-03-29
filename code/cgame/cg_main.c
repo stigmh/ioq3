@@ -1929,6 +1929,8 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 	cg.loading = qfalse;	// future players will be deferred
 
 	CG_InitLocalEntities();
+	
+	trap_LocateCGameData(&cg_entities[clientNum]);
 
 	CG_InitMarkPolys();
 

@@ -136,6 +136,7 @@ typedef struct {
 
 	int			serverId;			// included in each client message so the server
 												// can tell if it is for a prior map_restart
+	entityState_t *playerState;
 	// big stuff at end of structure so most offsets are 15 bits or less
 	clSnapshot_t	snapshots[PACKET_BACKUP];
 

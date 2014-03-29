@@ -3038,11 +3038,20 @@ void CL_Frame ( int msec ) {
 	Con_RunConsole();
 
 	cls.framecount++;
+	
+	if (cl.playerState) {
 
-	SV_SetVirtualPlayerState(
-		cl.serverTime, 0, cl.snap.numEntities, 
-		&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)],&cl.snap.ps
-	);
+		SV_SetVirtualPlayerState(/*
+			cl.serverTime, 0, cl.snap.numEntities,
+			&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps*/
+			cl.serverTime, cl.playerState, &cl.snap.ps
+		);
+		/*
+		Com_Printf("CL Found player %d\n\tPos [%f %f %f]\n\tAngles [%f %f %f]\n----\n",
+			cl.playerState->clientNum,
+			cl.playerState->pos.trBase[0], cl.playerState->pos.trBase[1], cl.playerState->pos.trBase[2],
+			cl.playerState->apos.trBase[0], cl.playerState->apos.trBase[1], cl.playerState->apos.trBase[2]);*/
+	}
 }
 
 
@@ -3627,6 +3636,8 @@ void CL_Init( void ) {
 	CL_GenerateQKey();
 	Cvar_Get( "cl_guid", "", CVAR_USERINFO | CVAR_ROM );
 	CL_UpdateGUID( NULL, 0 );
+
+	cl.playerState = NULL;
 
 	Com_Printf( "----- Client Initialization Complete -----\n" );
 }
