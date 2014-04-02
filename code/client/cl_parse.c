@@ -325,18 +325,11 @@ void CL_ParseSnapshot( msg_t *msg ) {
 
 	cl.newSnapshots = qtrue;
 	
-	if (com_virtualClient->integer) {
-		if (cleanSnap) {
-			//entityState_t *cal = &cl.entityBaselines[cl.snap.ps.clientNum];
-			SV_CreateVirtualPlayer(
-				cl.snap.serverTime, cl.snap.ping, cl.snap.numEntities,
-				&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps
-				);
-		}
-		else {
-			SV_SetVirtualPlayerState(cl.snap.serverTime, NULL, &cl.snap.ps);
-			//SV_BotFrame(cl.serverTimeDelta);
-		}
+	if (com_virtualClient->integer && cleanSnap) {
+		SV_CreateVirtualPlayer(
+			cl.snap.serverTime, cl.snap.ping, cl.snap.numEntities,
+			&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps
+		);
 	}
 }
 
