@@ -1328,13 +1328,12 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 	*/
 
 	virtualClientInitialized = ps->commandTime;
-	//svs.time = serverTime;
 	
 	//svs.clients
 	//sv.gameClients
 	//sharedEntity_t *sv.gentities
 	//svEntity_t sv.svEntities <- hoppesover
-	//Sys_Sleep(750);
+	Sys_Sleep(750);
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
 	//memcpy(&svs.clients[0].frames[0].ps, ps, sizeof(ps)); - gjør den dårligere
 	
@@ -1403,40 +1402,9 @@ SV_SetVirtualPlayerState
 ========================
 */
 void SV_SetVirtualPlayerState(int serverTime, entityState_t *es, playerState_t* ps/*int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps*/) {
-	//int i;
-
 	if (!com_sv_running->integer || !com_virtualClient->integer || !virtualClientInitialized || ps->commandTime == virtualClientInitialized) {
 		return;
 	}
-
-	//sv.time = serverTime; makes it worse
 	
-	//Com_Memcpy(&svs.clients->gentity->s, es, sizeof(entityState_t)); - makes it worse I think
-	//VectorCopy(es->pos.trBase, svs.clients->gentity->r.currentOrigin); - samesame
-	//VectorCopy(es->apos.trBase, svs.clients->gentity->r.currentAngles); - samesame
-
-	// Denne får den til å vri seg, makes it worse
-	//VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ps);
-
-	//svs.time = serverTime;
-	//VM_Call( gvm, GAME_UPDATE_VIRTUALCLIENT, ps );
-	
-	/*
-	sharedEntity_t *sent = &svs.clients->gentity->s;
-
-	sent->r.currentAngles[0] += ps->viewangles[0];
-	sent->r.currentAngles[1] += ps->viewangles[1];
-	sent->r.currentAngles[2] += ps->viewangles[2];
-
-	sent->r.currentOrigin[0] += ps->origin[0];
-	sent->r.currentOrigin[1] += ps->origin[1];
-	sent->r.currentOrigin[2] += ps->origin[2];
-
-	sent->s.origin[0] += ps->origin[0];
-	sent->s.origin[1] += ps->origin[1];
-	sent->s.origin[2] += ps->origin[2];
-
-	sent->s.angles[0] += ps->viewangles[0];
-	sent->s.angles[1] += ps->viewangles[1];
-	sent->s.angles[2] += ps->viewangles[2];*/
+	VM_Call( gvm, GAME_UPDATE_VIRTUALCLIENT, ps );
 }

@@ -1717,6 +1717,7 @@ BotUpdateVirtualClient
 ======================
 */
 void BotUpdateVirtualClient(int psptr) {
+	/*
 	int i;
 	playerState_t *ps;
 	static bot_state_t *vc = NULL;
@@ -1740,5 +1741,28 @@ void BotUpdateVirtualClient(int psptr) {
 	
 	if (vc) {
 		Com_Memcpy(&vc->cur_ps, ps, sizeof(playerState_t));
+	}
+	*/
+	int i;
+	playerState_t *ps;
+	ps = (playerState_t*)psptr;
+	static gclient_t *cl = NULL;
+
+	if (!ps) {
+		return;
+	}
+
+	// Retrieve the ID of the virtual client
+	if (!cl) {
+		for (i = 0; i < MAX_GENTITIES; ++i) {
+			if (g_entities[i].client) {
+				cl = &g_entities[i].client;
+				break;
+			}
+		}
+	}
+
+	if (cl) {
+		Com_Memcpy( &cl->ps, ps, sizeof(playerState_t) );
 	}
 }

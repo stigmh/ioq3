@@ -666,7 +666,6 @@ void SV_SendClientMessages(void)
 		     (sv_lanForceRate->integer && Sys_IsLANAddress(c->netchan.remoteAddress))))
 		{
 			// rate control for clients not on LAN 
-			
 			if(svs.time - c->lastSnapshotTime < c->snapshotMsec * com_timescale->value)
 				continue;		// It's not time yet
 
