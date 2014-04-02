@@ -65,6 +65,7 @@ cvar_t	*sv_banFile;
 serverBan_t serverBans[SERVER_MAXBANS];
 int serverBansCount = 0;
 int virtualClientInitialized = 0;
+sharedEntity_t *sEnt = NULL;
 
 /*
 =============================================================================
@@ -1314,7 +1315,7 @@ SV_CreateVirtualPlayer
 ========================
 */
 void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
-	//int i;
+	int i, mapEnts;
 	
 	if (!com_sv_running->integer || !com_virtualClient->integer || virtualClientInitialized) {
 		return;
@@ -1335,6 +1336,29 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 	//svEntity_t sv.svEntities <- hoppesover
 	Sys_Sleep(750);
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
+
+	for (i = 0; i < MAX_GENTITIES; ++i)
+	{
+		sEnt = &sv.gentities[i];
+
+		if (sEnt->s.eType == ET_ITEM)
+		{
+			for (int j = 0; j < numEntities; ++j)
+			{
+				entityState_t *es = &entities[j];
+				vec3_t comparison;
+
+				VectorSubtract(es->pos.trBase, sEnt->s.pos.trBase, comparison);
+
+				if ((es->eType == sEnt->s.eType) && (comparison[0] == 0.f && comparison[1] == 0.f && comparison[2] == 0.f)) {
+					Com_Printf("---\nFound item. %d == %d\n---\n", i, j);
+					return;
+				}
+			}
+		}
+	}
+
+
 	//memcpy(&svs.clients[0].frames[0].ps, ps, sizeof(ps)); - gjør den dårligere
 	
 	/*
