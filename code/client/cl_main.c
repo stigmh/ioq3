@@ -3038,7 +3038,7 @@ void CL_Frame ( int msec ) {
 	Con_RunConsole();
 
 	cls.framecount++;
-	
+
 	if (cl.playerState) {
 		SV_SetVirtualPlayerState(
 			cl.serverTime,

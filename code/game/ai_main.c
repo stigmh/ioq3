@@ -1717,32 +1717,6 @@ BotUpdateVirtualClient
 ======================
 */
 void BotUpdateVirtualClient(int psptr) {
-	/*
-	int i;
-	playerState_t *ps;
-	static bot_state_t *vc = NULL;
-	static qboolean updated = qfalse;
-
-	ps = (playerState_t*)psptr;
-
-	if (!ps) {
-		return;
-	}
-
-	// Retrieve the ID of the virtual client
-	if (!vc) {
-		for (i = 0; i < MAX_CLIENTS; i++) {
-			if (botstates[i] && botstates[i]->inuse) {
-				vc = botstates[i];
-				//break;
-			}
-		}
-	}
-	
-	if (vc) {
-		Com_Memcpy(&vc->cur_ps, ps, sizeof(playerState_t));
-	}
-	*/
 	int i;
 	playerState_t *ps;
 	ps = (playerState_t*)psptr;
@@ -1756,7 +1730,7 @@ void BotUpdateVirtualClient(int psptr) {
 	if (!cl) {
 		for (i = 0; i < MAX_GENTITIES; ++i) {
 			if (g_entities[i].client) {
-				cl = &g_entities[i].client;
+				cl = g_entities[i].client;
 				break;
 			}
 		}

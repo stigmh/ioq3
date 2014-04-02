@@ -609,12 +609,6 @@ void CL_ParseGamestate( msg_t *msg ) {
 
 			botname[i] = fullModelName[i];
 		}
-		
-		// Add a bot based on the user configuration <- this one will be used to control the player
-		//  - Syntax: Addbot <botname> [skill 1-5] [team] [msec delay] [altname]
-		//Cbuf_ExecuteText(EXEC_APPEND,
-			//va("Addbot %s %f %s %i %s\n", botname, 4.f, "0", 0, Cvar_VariableString("name")));
-		//SV_SetVirtualPlayerState(0, 0, 0, NULL, NULL);
 	}
 }
 

@@ -1871,6 +1871,7 @@ void G_RunFrame( int levelTime ) {
 		trap_Cvar_Set("g_listEntity", "0");
 	}
 	/* STIG good printout */
+	/*
 	for (int i = 0; i < MAX_GENTITIES; ++i) {
 		gentity_t *e = &g_entities[i];
 
@@ -1879,13 +1880,11 @@ void G_RunFrame( int levelTime ) {
 			entityShared_t *et = &e->r;
 
 			if (es->eType == ET_PLAYER) {
-				Com_Printf("SV Found player %d (%d)\n\tPos [%f %f %f]\n\tAngles [%f %f %f]\n----\n"/*\tShared Pos [%f %f %f]\n\tShared Angles [%f %f %f]\n----\n"*/,
+				Com_Printf("SV Found player %d (%d)\n\tPos [%f %f %f]\n\tAngles [%f %f %f]\n----\n",
 					e->client->ps.clientNum, i,
 					es->pos.trBase[0], es->pos.trBase[1], es->pos.trBase[2],
-					es->apos.trBase[0], es->apos.trBase[1], es->apos.trBase[2]/*,
-					et->currentOrigin[0], et->currentOrigin[1], et->currentOrigin[2],
-					et->currentAngles[0], et->currentAngles[1], et->currentAngles[2]*/);
+					es->apos.trBase[0], es->apos.trBase[1], es->apos.trBase[2]);
 			}
 		}
-	}
+	}*/
 }
