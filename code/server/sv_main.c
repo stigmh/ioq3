@@ -1315,19 +1315,12 @@ SV_CreateVirtualPlayer
 ========================
 */
 void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
-	int i, mapEnts;
+	int i;
 	
 	if (!com_sv_running->integer || !com_virtualClient->integer || virtualClientInitialized) {
 		return;
 	}
 	
-	/*
-	  
-	  KANSKJE DET HAR NOE MED AT LOKAL SERVER ACKNOWLEDGER KOMMANDOENE FRA BOTTEN LENGE
-	  FØR FAKTISK SERVER?
-
-	*/
-
 	virtualClientInitialized = ps->commandTime;
 	
 	//svs.clients
@@ -1336,88 +1329,7 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 	//svEntity_t sv.svEntities <- hoppesover
 	Sys_Sleep(750);
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
-
-	for (i = 0; i < MAX_GENTITIES; ++i)
-	{
-		sEnt = &sv.gentities[i];
-
-		if (sEnt->s.eType == ET_ITEM)
-		{
-			for (int j = 0; j < numEntities; ++j)
-			{
-				entityState_t *es = &entities[j];
-				vec3_t comparison;
-
-				VectorSubtract(es->pos.trBase, sEnt->s.pos.trBase, comparison);
-
-				if ((es->eType == sEnt->s.eType) && (comparison[0] == 0.f && comparison[1] == 0.f && comparison[2] == 0.f)) {
-					Com_Printf("---\nFound item. %d == %d\n---\n", i, j);
-					return;
-				}
-			}
-		}
-	}
-
-
-	//memcpy(&svs.clients[0].frames[0].ps, ps, sizeof(ps)); - gjør den dårligere
-	
-	/*
-	for (i = 0; i < numEntities; ++i) {
-		if (i >= sv.num_entities)
-			break;
-
-		entityState_t* ent = &entities[i];
-		entityShared_t* es = &sv.gentities[ent->number].r;
-
-		VectorCopy(ent->apos.trBase, es->currentAngles);
-		VectorCopy(ent->pos.trBase, es->currentOrigin);
-
-		Com_Memcpy(&sv.gentities[ent->number].s, &entities[i], sizeof(entityState_t));*/
-		/*
-		if (ent->eType > ET_GENERAL) {
-			Com_Printf("-------- LVS Found entity #%d (%d), type: %d, clientNum: %d, origin: [%f %f %f]\n", ent->number, i, ent->eType, ent->clientNum, ent->origin[0], ent->origin[1], ent->origin[2]);
-		}*/
-	//}
-	/*
-	for (i = 0; i < sv_maxclients->integer; ++i) {
-		client_t *cl = &svs.clients[i];
-		
-		if (cl->gentity && cl->gentity->s.eType == ET_PLAYER) {
-			entityState_t *s = &cl->gentity->s;
-			entityState_t *ent = &entities[i];
-			entityShared_t *r = &cl->gentity->r;
-
-			Com_Printf("----- Found client %s #%d (%d) at\n\tstartpos pos.trBase[%f %f %f]\n\tangles apos.trBase[%f %f %f]---\n",
-				cl->name, s->number, i,
-				s->pos.trBase[0], s->pos.trBase[1], s->pos.trBase[2],
-				s->apos.trBase[0], s->apos.trBase[1], s->apos.trBase[2]
-			);
-
-			Com_Printf("----- SNAPPY client %s #%d (%d) at\n\tstartpos pos.trBase[%f %f %f]\n\tangles apos.trBase[%f %f %f]---\n",
-				cl->name, ent->number, i,
-				ent->pos.trBase[0], ent->pos.trBase[1], ent->pos.trBase[2],
-				ent->apos.trBase[0], ent->apos.trBase[1], ent->apos.trBase[2]
-				);
-
-			Com_Printf("----- Shared %s #%d (%d) at\n\tcurrent origin[%f %f %f]\n\tcurrent angles[%f %f %f]---\n",
-				cl->name, s->number, i,
-				r->currentOrigin[0], r->currentOrigin[1], r->currentOrigin[2],
-				r->currentAngles[0], r->currentAngles[1], r->currentAngles[2]
-				);
-
-			break;
-		}
-	}
-	*/
-	/*
-	for (i = 0; i < numEntities; ++i)
-	{
-		entityState_t *ent = &entities[i];
-	}*/
-			/*
-			break;
-		}
-	}*/
+	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities, entities, ps);
 }
 
 /*
@@ -1425,10 +1337,10 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 SV_SetVirtualPlayerState
 ========================
 */
-void SV_SetVirtualPlayerState(int serverTime, entityState_t *es, playerState_t* ps/*int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps*/) {
+void SV_SetVirtualPlayerState(int serverTime, int parseEntitiesNum, int numEntities, entityState_t *entities, playerState_t* ps) {
 	if (!com_sv_running->integer || !com_virtualClient->integer || !virtualClientInitialized || ps->commandTime == virtualClientInitialized) {
 		return;
 	}
 	
-	VM_Call( gvm, GAME_UPDATE_VIRTUALCLIENT, ps );
+	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, parseEntitiesNum, numEntities, entities, ps);
 }

@@ -327,8 +327,8 @@ void CL_ParseSnapshot( msg_t *msg ) {
 	
 	if (com_virtualClient->integer && cleanSnap) {
 		SV_CreateVirtualPlayer(
-			cl.snap.serverTime, cl.snap.ping, cl.snap.numEntities,
-			&cl.parseEntities[cl.snap.parseEntitiesNum & (MAX_PARSE_ENTITIES - 1)], &cl.snap.ps
+			cl.snap.serverTime, /*cl.snap.ping*/cl.snap.parseEntitiesNum, cl.snap.numEntities,
+			cl.parseEntities, &cl.snap.ps
 		);
 	}
 }

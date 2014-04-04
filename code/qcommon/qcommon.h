@@ -1043,7 +1043,7 @@ int SV_FrameMsec(void);
 qboolean SV_GameCommand( void );
 int SV_SendQueuedPackets(void);
 void SV_CreateVirtualPlayer( int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps );
-void SV_SetVirtualPlayerState(int serverTime, entityState_t *es, playerState_t* ps/*int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps*/);
+void SV_SetVirtualPlayerState( int serverTime, int parseEntitiesNum, int numEntities, entityState_t *entities, playerState_t* ps );
 
 //
 // UI interface

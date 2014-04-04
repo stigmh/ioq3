@@ -229,7 +229,7 @@ Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, i
 	case BOTAI_START_FRAME:
 		return BotAIStartFrame( arg0 );
 	case GAME_UPDATE_VIRTUALCLIENT:
-		BotUpdateVirtualClient( arg0 );
+		BotUpdateVirtualClient( arg0, arg1, arg2, arg3 );
 		return 0;
 	case GAME_ADD_VIRTUALCLIENT:
 		G_AddBot( (const char*) arg0, (float) arg1, (const char*) arg2, arg3, (char*) arg4, (playerState_t*) arg5 );
@@ -511,6 +511,13 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	G_RemapTeamShaders();
 
+	for (int i = 0; i < MAX_GENTITIES; i++) {
+		gentity_t *gent = &g_entities[i];
+
+		if (gent->item) {
+			G_Printf("--Found item of type %d (index: %d)\n", gent->s.eType, i);
+		}
+	}
 }
 
 

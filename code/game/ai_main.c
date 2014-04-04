@@ -1716,16 +1716,32 @@ int BotAIShutdown( int restart ) {
 BotUpdateVirtualClient
 ======================
 */
-void BotUpdateVirtualClient(int psptr) {
+void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entitiesptr, int psptr ) {
 	int i;
 	playerState_t *ps;
-	ps = (playerState_t*)psptr;
-	static gclient_t *cl = NULL;
+	entityState_t *ents;
 
-	if (!ps) {
+	ps = (playerState_t*)psptr;
+	ents = (entityState_t*)entitiesptr;
+
+	static gclient_t *cl = NULL;
+	
+	/* CHECK WHAT SERVERS DO WHEN THEY CREATE NEW ENTITITES
+	if (!ents) {
 		return;
 	}
 
+	for (i = 0; i < numEntities; ++i) {
+		entityState_t* ent = &ents[(parseEntitiesNum + i) & (8192 - 1)]; // MAX_PARSE_ENTITIES
+		gentity_t* gent = &g_entities[ent->number];
+
+		Com_Memcpy(&gent->s, ent, sizeof(gentity_t));
+	}*/
+	
+	if (!ps) {
+		return;
+	}
+	
 	// Retrieve the ID of the virtual client
 	if (!cl) {
 		for (i = 0; i < MAX_GENTITIES; ++i) {
