@@ -1725,10 +1725,6 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entities
 	ents = (entityState_t*)entitiesptr;
 
 	gclient_t *cl = NULL;
-
-	// Ved ny entity er Gclient[num] NULL -> crash
-	// Ved død er externalevent til playerstate NULL -> crash
-	// Noe her kødder med bot state: no ltg
 	
 	if (!ents) {
 		return;
