@@ -1724,9 +1724,12 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entities
 	ps = (playerState_t*)psptr;
 	ents = (entityState_t*)entitiesptr;
 
-	static gclient_t *cl = NULL;
+	gclient_t *cl = NULL;
+
+	// Ved ny entity er Gclient[num] NULL -> crash
+	// Ved død er externalevent til playerstate NULL -> crash
+	// Noe her kødder med bot state: no ltg
 	
-	/* CHECK WHAT SERVERS DO WHEN THEY CREATE NEW ENTITITES
 	if (!ents) {
 		return;
 	}
@@ -1735,23 +1738,39 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entities
 		entityState_t* ent = &ents[(parseEntitiesNum + i) & (8192 - 1)]; // MAX_PARSE_ENTITIES
 		gentity_t* gent = &g_entities[ent->number];
 
-		Com_Memcpy(&gent->s, ent, sizeof(gentity_t));
-	}*/
+		Com_Memcpy(&gent->s, ent, sizeof(entityState_t));
+		
+		if (ent->eType == ET_PLAYER) {
+			// If not initialized on local virtual server
+			if (!Q_stricmp(gent->classname, "clientslot")) {
+				// Need to create a local playerstate as ClientBegin zeroes out the client->ps
+				playerState_t playerState;
+
+				Com_Memset(&playerState, 0, sizeof(playerState_t));
+				VectorCopy(ent->pos.trBase, playerState.origin);
+				VectorCopy(ent->apos.trBase, playerState.viewangles);
+				playerState.stats[STAT_HEALTH] = 125;
+
+				ClientBegin(ent->clientNum, &playerState);
+			} else {
+				gent->r.currentOrigin[0] = ent->pos.trBase[0];
+				gent->r.currentOrigin[1] = ent->pos.trBase[1];
+				gent->r.currentOrigin[2] = ent->pos.trBase[2];
+
+				gent->r.currentAngles[0] = ent->apos.trBase[0];
+				gent->r.currentAngles[1] = ent->apos.trBase[1];
+				gent->r.currentAngles[2] = ent->apos.trBase[2];
+			}
+		}
+	}
 	
 	if (!ps) {
 		return;
 	}
 	
 	// Retrieve the ID of the virtual client
-	if (!cl) {
-		for (i = 0; i < MAX_GENTITIES; ++i) {
-			if (g_entities[i].client) {
-				cl = g_entities[i].client;
-				break;
-			}
-		}
-	}
-
+	cl = g_entities[ps->clientNum].client;
+	
 	if (cl) {
 		Com_Memcpy( &cl->ps, ps, sizeof(playerState_t) );
 	}

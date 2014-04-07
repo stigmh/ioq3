@@ -1879,7 +1879,7 @@ void G_RunFrame( int levelTime ) {
 	}
 	/* STIG good printout */
 	/*
-	for (int i = 0; i < MAX_GENTITIES; ++i) {
+	for (int i = 1; i < MAX_GENTITIES; ++i) {
 		gentity_t *e = &g_entities[i];
 
 		if (e->client) {
