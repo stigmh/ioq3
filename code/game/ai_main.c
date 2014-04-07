@@ -1739,7 +1739,7 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entities
 		gentity_t* gent = &g_entities[ent->number];
 
 		Com_Memcpy(&gent->s, ent, sizeof(entityState_t));
-		
+
 		if (ent->eType == ET_PLAYER) {
 			// If not initialized on local virtual server
 			if (!Q_stricmp(gent->classname, "clientslot")) {
@@ -1753,13 +1753,20 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entities
 
 				ClientBegin(ent->clientNum, &playerState);
 			} else {
-				gent->r.currentOrigin[0] = ent->pos.trBase[0];
-				gent->r.currentOrigin[1] = ent->pos.trBase[1];
-				gent->r.currentOrigin[2] = ent->pos.trBase[2];
+				if (ent->eFlags & EF_DEAD) {
+					if (gent->client)
+						gent->client->ps.pm_type = PM_DEAD;
+				} else {
+					gent->client->ps.pm_type = PM_NORMAL;
 
-				gent->r.currentAngles[0] = ent->apos.trBase[0];
-				gent->r.currentAngles[1] = ent->apos.trBase[1];
-				gent->r.currentAngles[2] = ent->apos.trBase[2];
+					gent->r.currentOrigin[0] = ent->pos.trBase[0];
+					gent->r.currentOrigin[1] = ent->pos.trBase[1];
+					gent->r.currentOrigin[2] = ent->pos.trBase[2];
+
+					gent->r.currentAngles[0] = ent->apos.trBase[0];
+					gent->r.currentAngles[1] = ent->apos.trBase[1];
+					gent->r.currentAngles[2] = ent->apos.trBase[2];
+				}
 			}
 		}
 	}
