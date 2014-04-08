@@ -1076,9 +1076,6 @@ typedef struct {
 	// media
 	cgMedia_t		media;
 
-	// Whether or not client is running as virtual client
-	qboolean virtualClient;
-
 } cgs_t;
 
 //==============================================================================

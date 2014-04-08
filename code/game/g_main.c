@@ -510,14 +510,6 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	}
 
 	G_RemapTeamShaders();
-
-	for (int i = 0; i < MAX_GENTITIES; i++) {
-		gentity_t *gent = &g_entities[i];
-
-		if (gent->item) {
-			G_Printf("--Found item of type %d (index: %d)\n", gent->s.eType, i);
-		}
-	}
 }
 
 
@@ -1877,21 +1869,4 @@ void G_RunFrame( int levelTime ) {
 		}
 		trap_Cvar_Set("g_listEntity", "0");
 	}
-	/* STIG good printout */
-	/*
-	for (int i = 1; i < MAX_GENTITIES; ++i) {
-		gentity_t *e = &g_entities[i];
-
-		if (e->client) {
-			entityState_t *es = &e->s;
-			entityShared_t *et = &e->r;
-
-			if (es->eType == ET_PLAYER) {
-				Com_Printf("SV Found player %d (%d)\n\tPos [%f %f %f]\n\tAngles [%f %f %f]\n----\n",
-					e->client->ps.clientNum, i,
-					es->pos.trBase[0], es->pos.trBase[1], es->pos.trBase[2],
-					es->apos.trBase[0], es->apos.trBase[1], es->apos.trBase[2]);
-			}
-		}
-	}*/
 }
