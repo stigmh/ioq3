@@ -2720,7 +2720,7 @@ void Com_Init( char *commandLine ) {
 
 	/* Virtual Client setup */
 
-	// Whether or not to enter VC mode - 0: disabled, 1: enabled console, 2: enabled GUI
+	// Whether or not to enter VC mode - 0: disabled, 1: enabled GUI, 2: enabled console
 	com_virtualClient = Cvar_Get("virtualClient", "0", CVAR_LATCH);
 	Cvar_CheckRange(com_virtualClient, 0, 2, qtrue);
 
@@ -2952,16 +2952,19 @@ void Com_WriteConfiguration( void ) {
 
 	Com_WriteConfigToFile( Q3CONFIG_CFG );
 
-	// not needed for dedicated or standalone
+	// not needed for dedicated, standalone or virtual client
 #if !defined(DEDICATED) && !defined(STANDALONE)
-	fs = Cvar_Get ("fs_game", "", CVAR_INIT|CVAR_SYSTEMINFO );
+	if (!com_virtualClient->integer) {
+		fs = Cvar_Get("fs_game", "", CVAR_INIT | CVAR_SYSTEMINFO);
 
-	if(!com_standalone->integer)
-	{
-		if (UI_usesUniqueCDKey() && fs && fs->string[0] != 0) {
-			Com_WriteCDKey( fs->string, &cl_cdkey[16] );
-		} else {
-			Com_WriteCDKey( BASEGAME, cl_cdkey );
+		if (!com_standalone->integer)
+		{
+			if (UI_usesUniqueCDKey() && fs && fs->string[0] != 0) {
+				Com_WriteCDKey(fs->string, &cl_cdkey[16]);
+			}
+			else {
+				Com_WriteCDKey(BASEGAME, cl_cdkey);
+			}
 		}
 	}
 #endif
@@ -3013,7 +3016,7 @@ int Com_ModifyMsec( int msec ) {
 		msec = 1;
 	}
 
-	if ( com_dedicated->integer ) {
+	if ( com_dedicated->integer || com_virtualClient->integer ) {
 		// dedicated servers don't want to clamp for a much longer
 		// period, because it would mess up all the client's views
 		// of time.
@@ -3181,7 +3184,7 @@ void Com_Frame( void ) {
 		// get the latched value
 		Cvar_Get( "dedicated", "0", 0 );
 		com_dedicated->modified = qfalse;
-		if ( !com_dedicated->integer ) {
+		if (!com_dedicated->integer) {
 			SV_Shutdown( "dedicated set to 0" );
 			CL_FlushMemory();
 		}

@@ -341,6 +341,10 @@ void CG_RegisterCvars( void ) {
 	trap_Cvar_VariableStringBuffer( "sv_running", var, sizeof( var ) );
 	cgs.localServer = atoi( var );
 
+	// Check whether we're running as a virtual client
+	trap_Cvar_VariableStringBuffer("virtualClient", var, sizeof(var));
+	cgs.virtualClient = atoi(var);
+
 	forceModelModificationCount = cg_forceModel.modificationCount;
 
 	trap_Cvar_Register(NULL, "model", DEFAULT_MODEL, CVAR_USERINFO | CVAR_ARCHIVE );
@@ -1858,14 +1862,16 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 	cgs.processedSnapshotNum = serverMessageNum;
 	cgs.serverCommandSequence = serverCommandSequence;
 
-	// load a few needed things before we do any screen updates
-	cgs.media.charsetShader		= trap_R_RegisterShader( "gfx/2d/bigchars" );
-	cgs.media.whiteShader		= trap_R_RegisterShader( "white" );
-	cgs.media.charsetProp		= trap_R_RegisterShaderNoMip( "menu/art/font1_prop.tga" );
-	cgs.media.charsetPropGlow	= trap_R_RegisterShaderNoMip( "menu/art/font1_prop_glo.tga" );
-	cgs.media.charsetPropB		= trap_R_RegisterShaderNoMip( "menu/art/font2_prop.tga" );
-
 	CG_RegisterCvars();
+
+	if (cgs.virtualClient < 2) {
+		// load a few needed things before we do any screen updates
+		cgs.media.charsetShader = trap_R_RegisterShader("gfx/2d/bigchars");
+		cgs.media.whiteShader = trap_R_RegisterShader("white");
+		cgs.media.charsetProp = trap_R_RegisterShaderNoMip("menu/art/font1_prop.tga");
+		cgs.media.charsetPropGlow = trap_R_RegisterShaderNoMip("menu/art/font1_prop_glo.tga");
+		cgs.media.charsetPropB = trap_R_RegisterShaderNoMip("menu/art/font2_prop.tga");
+	}
 
 	CG_InitConsoleCommands();
 
@@ -1905,17 +1911,19 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 
 	cg.loading = qtrue;		// force players to load instead of defer
 
-	CG_LoadingString( "sounds" );
+	if (cgs.virtualClient < 2) {
+		CG_LoadingString("sounds");
 
-	CG_RegisterSounds();
+		CG_RegisterSounds();
 
-	CG_LoadingString( "graphics" );
+		CG_LoadingString("graphics");
 
-	CG_RegisterGraphics();
+		CG_RegisterGraphics();
 
-	CG_LoadingString( "clients" );
+		CG_LoadingString("clients");
 
-	CG_RegisterClients();		// if low on memory, some clients will be deferred
+		CG_RegisterClients();		// if low on memory, some clients will be deferred
+	}
 
 #ifdef MISSIONPACK
 	CG_AssetCache();

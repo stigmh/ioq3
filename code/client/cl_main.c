@@ -1291,7 +1291,7 @@ memory on the hunk from cgame, ui, and renderer
 =====================
 */
 void CL_MapLoading( void ) {
-	if ( com_dedicated->integer ) {
+	if ( com_dedicated->integer || com_virtualClient->integer > 1 ) {
 		clc.state = CA_DISCONNECTED;
 		Key_SetCatcher( KEYCATCH_CONSOLE );
 		return;
@@ -2927,66 +2927,69 @@ void CL_Frame ( int msec ) {
 	}
 #endif
 
-	if ( cls.cddialog ) {
-		// bring up the cd error dialog if needed
-		cls.cddialog = qfalse;
-		VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_NEED_CD );
-	} else	if ( clc.state == CA_DISCONNECTED && !( Key_GetCatcher( ) & KEYCATCH_UI )
-		&& !com_sv_running->integer && uivm ) {
-		// if disconnected
-		S_StopAllSounds();
-		VM_Call(uivm, UI_SET_ACTIVE_MENU, UIMENU_MAIN);
-	}
-
-	// if recording an avi, lock to a fixed fps
-	if ( CL_VideoRecording( ) && cl_aviFrameRate->integer && msec) {
-		// save the current screen
-		if ( clc.state == CA_ACTIVE || cl_forceavidemo->integer) {
-			float fps = MIN(cl_aviFrameRate->value * com_timescale->value, 1000.0f);
-			float frameDuration = MAX(1000.0f / fps, 1.0f) + clc.aviVideoFrameRemainder;
-
-			CL_TakeVideoFrame( );
-
-			msec = (int)frameDuration;
-			clc.aviVideoFrameRemainder = frameDuration - msec;
+	if (com_virtualClient->integer < 2) {
+		if (cls.cddialog) {
+			// bring up the cd error dialog if needed
+			cls.cddialog = qfalse;
+			VM_Call(uivm, UI_SET_ACTIVE_MENU, UIMENU_NEED_CD);
 		}
-	}
-	
-	if( cl_autoRecordDemo->integer ) {
-		if( clc.state == CA_ACTIVE && !clc.demorecording && !clc.demoplaying ) {
-			// If not recording a demo, and we should be, start one
-			qtime_t	now;
-			char		*nowString;
-			char		*p;
-			char		mapName[ MAX_QPATH ];
-			char		serverName[ MAX_OSPATH ];
+		else	if (clc.state == CA_DISCONNECTED && !(Key_GetCatcher() & KEYCATCH_UI)
+			&& !com_sv_running->integer && uivm) {
+			// if disconnected
+			S_StopAllSounds();
+			VM_Call(uivm, UI_SET_ACTIVE_MENU, UIMENU_MAIN);
+		}
 
-			Com_RealTime( &now );
-			nowString = va( "%04d%02d%02d%02d%02d%02d",
+		// if recording an avi, lock to a fixed fps
+		if (CL_VideoRecording() && cl_aviFrameRate->integer && msec) {
+			// save the current screen
+			if (clc.state == CA_ACTIVE || cl_forceavidemo->integer) {
+				float fps = MIN(cl_aviFrameRate->value * com_timescale->value, 1000.0f);
+				float frameDuration = MAX(1000.0f / fps, 1.0f) + clc.aviVideoFrameRemainder;
+
+				CL_TakeVideoFrame();
+
+				msec = (int)frameDuration;
+				clc.aviVideoFrameRemainder = frameDuration - msec;
+			}
+		}
+
+		if (cl_autoRecordDemo->integer) {
+			if (clc.state == CA_ACTIVE && !clc.demorecording && !clc.demoplaying) {
+				// If not recording a demo, and we should be, start one
+				qtime_t	now;
+				char		*nowString;
+				char		*p;
+				char		mapName[MAX_QPATH];
+				char		serverName[MAX_OSPATH];
+
+				Com_RealTime(&now);
+				nowString = va("%04d%02d%02d%02d%02d%02d",
 					1900 + now.tm_year,
 					1 + now.tm_mon,
 					now.tm_mday,
 					now.tm_hour,
 					now.tm_min,
-					now.tm_sec );
+					now.tm_sec);
 
-			Q_strncpyz( serverName, clc.servername, MAX_OSPATH );
-			// Replace the ":" in the address as it is not a valid
-			// file name character
-			p = strstr( serverName, ":" );
-			if( p ) {
-				*p = '.';
+				Q_strncpyz(serverName, clc.servername, MAX_OSPATH);
+				// Replace the ":" in the address as it is not a valid
+				// file name character
+				p = strstr(serverName, ":");
+				if (p) {
+					*p = '.';
+				}
+
+				Q_strncpyz(mapName, COM_SkipPath(cl.mapname), sizeof(cl.mapname));
+				COM_StripExtension(mapName, mapName, sizeof(mapName));
+
+				Cbuf_ExecuteText(EXEC_NOW,
+					va("record %s-%s-%s", nowString, serverName, mapName));
 			}
-
-			Q_strncpyz( mapName, COM_SkipPath( cl.mapname ), sizeof( cl.mapname ) );
-			COM_StripExtension(mapName, mapName, sizeof(mapName));
-
-			Cbuf_ExecuteText( EXEC_NOW,
-					va( "record %s-%s-%s", nowString, serverName, mapName ) );
-		}
-		else if( clc.state != CA_ACTIVE && clc.demorecording ) {
-			// Recording, but not CA_ACTIVE, so stop recording
-			CL_StopRecord_f( );
+			else if (clc.state != CA_ACTIVE && clc.demorecording) {
+				// Recording, but not CA_ACTIVE, so stop recording
+				CL_StopRecord_f();
+			}
 		}
 	}
 
@@ -3018,24 +3021,26 @@ void CL_Frame ( int msec ) {
 	// decide on the serverTime to render
 	CL_SetCGameTime();
 
-	// update the screen
-	SCR_UpdateScreen();
+	if (com_virtualClient->integer < 2) {
+		// update the screen
+		SCR_UpdateScreen();
 
-	// update audio
-	S_Update();
+		// update audio
+		S_Update();
 
 #ifdef USE_VOIP
-	CL_CaptureVoip();
+		CL_CaptureVoip();
 #endif
 
 #ifdef USE_MUMBLE
-	CL_UpdateMumble();
+		CL_UpdateMumble();
 #endif
 
-	// advance local effects for next frame
-	SCR_RunCinematic();
+		// advance local effects for next frame
+		SCR_RunCinematic();
 
-	Con_RunConsole();
+		Con_RunConsole();
+	}
 
 	cls.framecount++;
 	
@@ -3133,6 +3138,10 @@ void CL_StartHunkUsers( qboolean rendererOnly ) {
 		return;
 	}
 
+	if ( com_virtualClient->integer > 1 ) {
+		return;
+	}
+
 	if ( !cls.rendererStarted ) {
 		cls.rendererStarted = qtrue;
 		CL_InitRenderer();
@@ -3152,7 +3161,7 @@ void CL_StartHunkUsers( qboolean rendererOnly ) {
 		S_BeginRegistration();
 	}
 
-	if( com_dedicated->integer ) {
+	if( com_dedicated->integer || com_virtualClient->integer > 1 ) {
 		return;
 	}
 

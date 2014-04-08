@@ -714,26 +714,26 @@ void Sys_PlatformInit( void )
 	Sys_SetFloatEnv();
 
 #ifndef DEDICATED
-	if( SDL_VIDEODRIVER )
+	if (SDL_VIDEODRIVER)
 	{
-		Com_Printf( "SDL_VIDEODRIVER is externally set to \"%s\", "
-				"in_mouse -1 will have no effect\n", SDL_VIDEODRIVER );
+		Com_Printf("SDL_VIDEODRIVER is externally set to \"%s\", "
+			"in_mouse -1 will have no effect\n", SDL_VIDEODRIVER);
 		SDL_VIDEODRIVER_externallySet = qtrue;
 	}
 	else
 		SDL_VIDEODRIVER_externallySet = qfalse;
 
-	if(timeGetDevCaps(&ptc, sizeof(ptc)) == MMSYSERR_NOERROR)
+	if (timeGetDevCaps(&ptc, sizeof(ptc)) == MMSYSERR_NOERROR)
 	{
 		timerResolution = ptc.wPeriodMin;
 
-		if(timerResolution > 1)
+		if (timerResolution > 1)
 		{
 			Com_Printf("Warning: Minimum supported timer resolution is %ums "
 				"on this system, recommended resolution 1ms\n", timerResolution);
 		}
-		
-		timeBeginPeriod(timerResolution);				
+
+		timeBeginPeriod(timerResolution);
 	}
 	else
 		timerResolution = 0;
