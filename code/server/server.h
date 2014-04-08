@@ -118,7 +118,8 @@ typedef enum {
 					// connection for a couple seconds
 	CS_CONNECTED,	// has been assigned to a client_t, but no gamestate yet
 	CS_PRIMED,		// gamestate has been sent, but client hasn't sent a usercmd
-	CS_ACTIVE		// client is fully in game
+	CS_ACTIVE,		// client is fully in game
+	CS_VC_OCCUPIED	// occupied slot for virtual clients so the proper client ID is selected
 } clientState_t;
 
 typedef struct netchan_buffer_s {

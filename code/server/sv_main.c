@@ -1315,21 +1315,33 @@ SV_CreateVirtualPlayer
 ========================
 */
 void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
-	int i;
-	
+	int			i;
+	client_t	*cl;
+
 	if (!com_sv_running->integer || !com_virtualClient->integer || virtualClientInitialized) {
 		return;
 	}
 	
 	virtualClientInitialized = ps->commandTime;
+
+	// Make sure the add command selects the proper client slot
+	for (i = 0, cl = svs.clients; i < ps->clientNum; i++, cl++) {
+		if (cl->state == CS_FREE) {
+			cl->state = CS_VC_OCCUPIED;
+		}
+	}
 	
-	//svs.clients
-	//sv.gameClients
-	//sharedEntity_t *sv.gentities
-	//svEntity_t sv.svEntities <- hoppesover
-	Sys_Sleep(750);
+	// Create the virtual client and run a update to get things started
+	Sys_Sleep(750); // Needed to compensate for extern server time
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
 	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities, entities, ps);
+
+	// Re-enable the client slots
+	for (i = 0, cl = svs.clients; i < ps->clientNum; i++, cl++) {
+		if (cl->state == CS_VC_OCCUPIED) {
+			cl->state = CS_FREE;
+		}
+	}
 }
 
 /*
