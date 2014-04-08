@@ -3565,6 +3565,14 @@ void CL_Init( void ) {
 	Cvar_Get ("sex", "male", CVAR_USERINFO | CVAR_ARCHIVE );
 	Cvar_Get ("cl_anonymous", "0", CVAR_USERINFO | CVAR_ARCHIVE );
 
+	if (com_virtualClient->integer) {
+		Cvar_Set("team_headmodel", com_virtualClientBot->string);
+		Cvar_Set("team_model", com_virtualClientBot->string);
+		Cvar_Set("headmodel", com_virtualClientBot->string);
+		Cvar_Set("model", com_virtualClientBot->string);
+		Cvar_Set("name", com_virtualClientName->string);
+	}
+
 	Cvar_Get ("password", "", CVAR_USERINFO);
 	Cvar_Get ("cg_predictItems", "1", CVAR_USERINFO | CVAR_ARCHIVE );
 

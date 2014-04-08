@@ -1333,7 +1333,8 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 	
 	// Create the virtual client and run a update to get things started
 	Sys_Sleep(svs.time); // Needed to compensate for extern server time
-	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, "sarge", 4, "0", 0, "VirtualClient", ps);
+	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, com_virtualClientBot->string,
+		com_virtualClientSkill->integer, "0", 0, com_virtualClientName->string, ps);
 	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities, entities, ps);
 
 	// Re-enable the client slots

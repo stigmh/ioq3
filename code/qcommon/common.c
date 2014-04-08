@@ -59,6 +59,9 @@ cvar_t	*com_speeds;
 cvar_t	*com_developer;
 cvar_t	*com_dedicated;
 cvar_t	*com_virtualClient;
+cvar_t	*com_virtualClientSkill;
+cvar_t	*com_virtualClientBot;
+cvar_t	*com_virtualClientName;
 cvar_t	*com_timescale;
 cvar_t	*com_fixedtime;
 cvar_t	*com_journal;
@@ -2715,9 +2718,21 @@ void Com_Init( char *commandLine ) {
 	Cvar_CheckRange( com_dedicated, 0, 2, qtrue );
 #endif
 
-	// get virtualClient
+	/* Virtual Client setup */
+
+	// Whether or not to enter VC mode - 0: disabled, 1: enabled console, 2: enabled GUI
 	com_virtualClient = Cvar_Get("virtualClient", "0", CVAR_LATCH);
-	Cvar_CheckRange(com_virtualClient, 0, 1, qtrue);
+	Cvar_CheckRange(com_virtualClient, 0, 2, qtrue);
+
+	// Bot name (bot file name)
+	com_virtualClientBot = Cvar_Get("virtualClientBot", "sarge", CVAR_LATCH);
+
+	// Retrieve bot skill (worst 1-5 best)
+	com_virtualClientSkill = Cvar_Get("virtualClientSkill", "4", CVAR_LATCH);
+	Cvar_CheckRange(com_virtualClientSkill, 1, 5, qtrue);
+
+	// Virtual Client name (bot altname)
+	com_virtualClientName = Cvar_Get("virtualClientName", "VirtualClient", CVAR_LATCH);
 
 	// allocate the stack based hunk allocator
 	Com_InitHunkMemory();
