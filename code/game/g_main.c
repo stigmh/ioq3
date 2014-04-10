@@ -232,7 +232,7 @@ Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, i
 		BotUpdateVirtualClient( arg0, arg1, arg2, arg3 );
 		return 0;
 	case GAME_ADD_VIRTUALCLIENT:
-		G_AddBot( (const char*) arg0, (float) arg1, (const char*) arg2, arg3, (char*) arg4, (playerState_t*) arg5 );
+		G_AddBot( (const char*) (intptr_t) arg0, (float) arg1, (const char*) (intptr_t) arg2, arg3, (char*) (intptr_t) arg4, (playerState_t*) (intptr_t) arg5 );
 		return 0;
 	}
 

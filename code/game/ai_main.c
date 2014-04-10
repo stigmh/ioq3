@@ -1720,11 +1720,11 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entities
 	int i;
 	playerState_t *ps;
 	entityState_t *ents;
-
-	ps = (playerState_t*)psptr;
-	ents = (entityState_t*)entitiesptr;
-
-	gclient_t *cl = NULL;
+	gclient_t *cl;
+	
+	ps = (playerState_t*) (intptr_t) psptr;
+	ents = (entityState_t*) (intptr_t) entitiesptr;
+	cl = NULL;
 	
 	if (!ents) {
 		return;

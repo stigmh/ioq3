@@ -571,9 +571,6 @@ void CL_ParseGamestate( msg_t *msg ) {
 	if (com_virtualClient->integer && !com_sv_running->integer) {
 		// Retrieve server info from the actual remote server
 		char *serverInfo;
-		const char *fullModelName;
-		char botname[MAX_QPATH];
-		int i;
 
 		serverInfo = cl.gameState.stringData + cl.gameState.stringOffsets[CS_SERVERINFO];
 
@@ -588,20 +585,6 @@ void CL_ParseGamestate( msg_t *msg ) {
 		// Start the local virtual server
 		Cbuf_ExecuteText(EXEC_NOW,
 			va("devmap %s\n", Info_ValueForKey(serverInfo, "mapname")));
-		
-		// Retrieve the bot model name
-		fullModelName = Cvar_VariableString("model");
-
-		for (i = 0; i < MAX_QPATH; ++i)
-		{
-			if (fullModelName[i] == '/' || fullModelName[i] == '\0')
-			{
-				botname[i] = '\0';
-				break;
-			}
-
-			botname[i] = fullModelName[i];
-		}
 	}
 }
 
