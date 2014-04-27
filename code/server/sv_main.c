@@ -1331,10 +1331,14 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 		}
 	}
 	
+	// Add the arguments for the QVM syscall
+	Cmd_TokenizeString(va("%s %d %s %s %p", com_virtualClientBot->string,
+		com_virtualClientSkill->integer, "0", com_virtualClientName->string, ps));
+	Cmd_Args_Sanitize();
+
 	// Create the virtual client and run a update to get things started
 	Sys_Sleep(svs.time); // Needed to compensate for extern server time
-	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, com_virtualClientBot->string,
-		com_virtualClientSkill->integer, "0", 0, com_virtualClientName->string, ps);
+	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, ps);
 	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities, entities, ps);
 
 	// Re-enable the client slots
@@ -1354,6 +1358,10 @@ void SV_SetVirtualPlayerState(int serverTime, int parseEntitiesNum, int numEntit
 	if (!com_sv_running->integer || !com_virtualClient->integer || !virtualClientInitialized || ps->commandTime == virtualClientInitialized) {
 		return;
 	}
+
+	// Add the arguments for the QVM syscall
+	Cmd_TokenizeString(va("%p %p", entities, ps));
+	Cmd_Args_Sanitize();
 	
-	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, parseEntitiesNum, numEntities, entities, ps);
+	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, parseEntitiesNum, numEntities);
 }

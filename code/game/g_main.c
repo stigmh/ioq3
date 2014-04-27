@@ -188,6 +188,33 @@ void G_RunFrame( int levelTime );
 void G_ShutdownGame( int restart );
 void CheckExitRules( void );
 
+static void addVirtualClient() {
+	char botName[21];
+	char skillStr[4];
+	float skill;
+	char team[5];
+	char vcName[21];
+	char ps[15];
+	playerState_t* psp = NULL;
+	
+	trap_Argv(0, botName, sizeof(botName));
+	trap_Argv(1, skillStr, sizeof(float));
+
+	if (!skillStr[0]) {
+		skill = 4.f;
+	} else {
+		skill = (float)atoi(skillStr);
+	}
+
+	trap_Argv(2, team, sizeof(team));
+	trap_Argv(3, vcName, sizeof(vcName));
+	trap_Argv(4, ps, sizeof(ps));
+
+	sscanf(ps, "%p", &psp);
+
+	G_AddBot(botName, skill, team, 0, vcName, psp);
+}
+
 /*
 ================
 vmMain
@@ -229,10 +256,10 @@ Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, i
 	case BOTAI_START_FRAME:
 		return BotAIStartFrame( arg0 );
 	case GAME_UPDATE_VIRTUALCLIENT:
-		BotUpdateVirtualClient( arg0, arg1, arg2, arg3 );
+		BotUpdateVirtualClient( arg0, arg1 );
 		return 0;
 	case GAME_ADD_VIRTUALCLIENT:
-		G_AddBot( (const char*) (intptr_t) arg0, (float) arg1, (const char*) (intptr_t) arg2, arg3, (char*) (intptr_t) arg4, (playerState_t*) (intptr_t) arg5 );
+		addVirtualClient();
 		return 0;
 	}
 

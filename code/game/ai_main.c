@@ -1716,15 +1716,20 @@ int BotAIShutdown( int restart ) {
 BotUpdateVirtualClient
 ======================
 */
-void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities, int entitiesptr, int psptr ) {
+void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities ) {
 	int i;
-	playerState_t *ps;
-	entityState_t *ents;
-	gclient_t *cl;
+	char psBuff[15];
+	char entsBuff[15];
 	
-	ps = (playerState_t*) (intptr_t) psptr;
-	ents = (entityState_t*) (intptr_t) entitiesptr;
-	cl = NULL;
+	gclient_t *cl = NULL;
+	playerState_t *ps = NULL;
+	entityState_t *ents = NULL;
+
+	trap_Argv(0, entsBuff, sizeof(entsBuff));
+	trap_Argv(1, psBuff, sizeof(psBuff));
+	
+	sscanf(entsBuff, "%p", &ents);
+	sscanf(psBuff, "%p", &ps);
 	
 	if (!ents) {
 		return;
