@@ -1384,7 +1384,7 @@ void NET_OpenIP( void ) {
 
 	if(net_enabled->integer & NET_ENABLEV4)
 	{
-		for( i = 0 ; i < 10 ; i++ ) {
+		for( i = 0 ; i < MAX_CLIENTS ; i++ ) {
 			ip_socket = NET_IPSocket( net_ip->string, port + i, &err );
 			if (ip_socket != INVALID_SOCKET) {
 				Cvar_SetValue( "net_port", port + i );
