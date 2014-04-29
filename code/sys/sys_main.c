@@ -163,6 +163,9 @@ qboolean Sys_WritePIDFile( void )
 	char      *pidFile = Sys_PIDFileName( );
 	FILE      *f;
 	qboolean  stale = qfalse;
+    
+    if (com_virtualClient->integer)
+        return qfalse;
 
 	if( pidFile == NULL )
 		return qfalse;
