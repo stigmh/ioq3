@@ -1339,7 +1339,12 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 	// Create the virtual client and run a update to get things started
 	Sys_Sleep(svs.time); // Needed to compensate for extern server time
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, ps);
-	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities, entities, ps);
+    
+    // Add the arguments for the QVM syscall
+    Cmd_TokenizeString(va("%p %p", entities, ps));
+    Cmd_Args_Sanitize();
+    
+	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities);
 
 	// Re-enable the client slots
 	for (i = 0, cl = svs.clients; i < ps->clientNum; i++, cl++) {
