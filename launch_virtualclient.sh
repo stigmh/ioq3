@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-##############################################
-# EXAMPLE OF LOCAL FILE (baseq3path.local.sh #
-##############################################
+###############################################
+# EXAMPLE OF LOCAL FILE (baseq3path.local.sh) #
+###############################################
 #basepath="/usr/local/games/ioquake3"
 #arch="x86_64"
 #buildDir="build/release-linux-$arch"
-#cp -f $buildDir/renderer_opengl1_$arch.so $basepath
-#cp -f $buildDir/baseq3/*.so $basepath/baseq3
-#############################################
+##############################################
 
 source baseq3path.local.sh
 
