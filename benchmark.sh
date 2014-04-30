@@ -44,43 +44,36 @@ function getStats {
   echo $(ssh $user@$server "sp=/sys/class/net/eth0/statistics;rxb=rx_bytes;txb=tx_bytes;rxp=rx_packets;txp=tx_packets;rb1=\`cat \$sp/\$rxb\`;tb1=\`cat \$sp/\$txb\`;rp1=\`cat \$sp/\$rxp\`;tp1=\`cat \$sp/\$txp\`;sleep 1s;rb2=\`cat \$sp/\$rxb\`;tb2=\`cat \$sp/\$txb\`;rp2=\`cat \$sp/\$rxp\`;tp2=\`cat \$sp/\$txp\`;tpps=\`expr \$tp2 - \$tp1\`;rpps=\`expr \$rp2 - \$rp1\`;tbps=\`expr \$tb2 - \$tb1\`;rbps=\`expr \$rb2 - \$rb1\`;tkbps=\`expr \$tbps / 1024\`;rkbps=\`expr \$rbps / 1024\`;stats=\$(top -bn1 | grep \"$pid $user\" | awk '{print \$9,\$10}');echo \"\$stats \$rpps \$rkbps \$tpps \$tkbps\"")
 }
 
-## Launch server, retrieve PID ##
-echo "Launching the dedicated server";
+function launchServer {
+  ## Launch server, retrieve PID ##
+  echo "Launching the dedicated server";
+  
+  pid=$(ssh $user@$server "cd $path; ./launch_dedicated.sh; sleep 2s; ps x | pgrep -n ioq3")
+  
+  if [[ -z "$pid" ]]; then
+    echo "Failed to start dedicated server."
+    exit
+  fi
+  
+  echo "Server launched with pid: $pid"
+  
+  # Give the server some time to establish itself
+  sleep 15s
+}
 
-# Two ssh calls as ps x may be to fast for a single call
-ssh $user@$server "cd $path; ./launch_dedicated.sh"
-pid=$(ssh $user@$server "ps x | pgrep -n ioq3")
-
-if [[ -z "$pid" ]]; then
-  echo "Failed to start dedicated server."
-  exit
-fi
-
-sleep 30s
-echo "Server launched with pid: $pid"
-
-## Log stats and launch clients ##
+## Write the descriptive file to the log  ##
 echo -e "vcs\tcpu\tmem\tpips\tikbs\tpops\tokbs" > $output
-
-localPIDs=()
 
 let counter=0;
 while [ $numVCs -gt $counter ]; do
+  # Launch server
+  launchServer
+
   if [ $counter -gt 0 ]; then
-    echo "Launching Virtual Client #$counter"
-    ./launch_multiple_vcs.sh 1 $server
-    sleep 1s
-    localPID=$(ps x | pgrep -n ioq)
-    localPIDs+=($localPID)
-    echo "Virtual client launched with PID: $localPID"
-    
-    let counter+=1
-    echo "Launching Virtual Client #$counter"
-    ./launch_multiple_vcs.sh 1 $server
-    sleep 1s
-    localPID=$(ps x | pgrep -n ioq)
-    localPIDs+=($localPID)
-    echo "Virtual client launched with PID: $localPID"
+    echo "Launching $counter Virtual Clients"
+    ./launch_multiple_vcs.sh $counter $server
+    sleep 2s
+    echo "Done launching clients"
   fi
 
   echo "Benchmarking ..."
@@ -121,16 +114,16 @@ while [ $numVCs -gt $counter ]; do
   echo -e "$counter\t$cpuStats\t$memStats\t$pipStats\t$kinStats\t$popStats\t$kouStats" >> $output
 
   echo "Done!"
+
+  # Terminate local running virtual clients
+  echo "Terminating virtual clients"
+  killall ioquake3.x86_64
+  
+  # Terminate server
+  echo "Terminating server"
+  ssh $user@$server "kill $pid"
+
   let counter+=1
 done
 
-#Terminate local running virtual clients
-echo "Terminating local virtual clients"
-for i in "${localPIDs[@]}"
-do
-  kill $i
-done
-
-# Terminate server
-echo "Terminating server."
-ssh $user@$server "kill -9 $pid"
+echo "Finished benchmarking the server, output is in $output"

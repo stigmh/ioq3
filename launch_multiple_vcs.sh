@@ -38,5 +38,8 @@ while [ $numClients -gt 0 ]; do
   let loopCounter+=1
   
   ./$buildDir/ioquake3.$arch +set r_fullscreen 0 +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0 +set fs_basepath $basepath +set virtualClient 2 +set virtualClientSkill $skill +set virtualClientBot $randBot +set virtualClientName $clientNamePrefix$loopCounter +connect $server >/dev/null 2>&1 &
+  sleep 1s
 done
+
+#echo "All clients launched!"
 
