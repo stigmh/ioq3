@@ -73,10 +73,6 @@ void trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int buf
 	syscall( CG_CVAR_VARIABLESTRINGBUFFER, var_name, buffer, bufsize );
 }
 
-void trap_LocateCGameData( entityState_t* ent ) {
-	syscall( CG_LOCATE_GAME_DATA, ent );
-}
-
 int		trap_Argc( void ) {
 	return syscall( CG_ARGC );
 }

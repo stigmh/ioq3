@@ -3044,7 +3044,7 @@ void CL_Frame ( int msec ) {
 
 	cls.framecount++;
 	
-	if (com_virtualClient->integer && cl.playerState) {
+	if (com_virtualClient->integer && com_sv_running->integer) {
 		SV_UpdateVirtualServer(
 			cl.serverTime,
 			cl.snap.parseEntitiesNum,
@@ -3649,8 +3649,6 @@ void CL_Init( void ) {
 	CL_GenerateQKey();
 	Cvar_Get( "cl_guid", "", CVAR_USERINFO | CVAR_ROM );
 	CL_UpdateGUID( NULL, 0 );
-
-	cl.playerState = NULL;
 
 	Com_Printf( "----- Client Initialization Complete -----\n" );
 }

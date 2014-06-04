@@ -1934,8 +1934,6 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 
 	CG_InitLocalEntities();
 	
-	trap_LocateCGameData(&cg_entities[clientNum].currentState);
-
 	CG_InitMarkPolys();
 
 	// remove the last loading update
