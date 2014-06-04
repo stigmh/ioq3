@@ -196,22 +196,27 @@ static void addVirtualClient() {
 	char vcName[21];
 	char ps[15];
 	playerState_t* psp = NULL;
-	
+    
+    // Retrieve botname and skill from argument stack
 	trap_Argv(0, botName, sizeof(botName));
 	trap_Argv(1, skillStr, sizeof(float));
 
+    // Verify and cast the skill
 	if (!skillStr[0]) {
 		skill = 4.f;
 	} else {
 		skill = (float)atoi(skillStr);
 	}
-
+    
+    // Retrieve team, client name, and player state pointer from argument stack
 	trap_Argv(2, team, sizeof(team));
 	trap_Argv(3, vcName, sizeof(vcName));
 	trap_Argv(4, ps, sizeof(ps));
-
+    
+    // Cast the pointer string to a real pointer
 	sscanf(ps, "%p", &psp);
-
+    
+    // Add the bot using a slightly modified version of the QVM's native addbot function
 	G_AddBot(botName, skill, team, 0, vcName, psp);
 }
 

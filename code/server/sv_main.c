@@ -1314,37 +1314,41 @@ int SV_SendQueuedPackets()
 SV_CreateVirtualPlayer
 ========================
 */
-void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entityState_t* entities, playerState_t* ps) {
+void SV_CreateVirtualPlayer(int serverTime, int parseEntitiesNum, int numEntities, entityState_t* entities, playerState_t* ps) {
 	int			i;
 	client_t	*cl;
 
 	if (!com_sv_running->integer || !com_virtualClient->integer || virtualClientInitialized) {
 		return;
 	}
-	
+    
+    // Store the time of virtual client creation
 	virtualClientInitialized = ps->commandTime;
 
-	// Make sure the add command selects the proper client slot
+	// To ensure that the add command selects the proper client slot
 	for (i = 0, cl = svs.clients; i < ps->clientNum; i++, cl++) {
 		if (cl->state == CS_FREE) {
 			cl->state = CS_VC_OCCUPIED;
 		}
 	}
 	
-	// Add the arguments for the QVM syscall
+	// Concatenate the arguments for the QVM syscall
 	Cmd_TokenizeString(va("%s %d %s %s %p", com_virtualClientBot->string,
 		com_virtualClientSkill->integer, "0", com_virtualClientName->string, ps));
 	Cmd_Args_Sanitize();
 
-	// Create the virtual client and run a update to get things started
-	Sys_Sleep(svs.time); // Needed to compensate for extern server time
+	// Synchronize time with the real server
+	Sys_Sleep(svs.time);
+
+    // Add the bot to the local shadow server
 	VM_Call(gvm, GAME_ADD_VIRTUALCLIENT, ps);
     
-    // Add the arguments for the QVM syscall
+    // Concatenate new arguments for the  next QVM syscall
     Cmd_TokenizeString(va("%p %p", entities, ps));
     Cmd_Args_Sanitize();
     
-	VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, ping, numEntities);
+	// Update the shadow server's entities with real server data
+    VM_Call(gvm, GAME_UPDATE_VIRTUALCLIENT, parseEntitiesNum, numEntities);
 
 	// Re-enable the client slots
 	for (i = 0, cl = svs.clients; i < ps->clientNum; i++, cl++) {
@@ -1355,11 +1359,11 @@ void SV_CreateVirtualPlayer(int serverTime, int ping, int numEntities, entitySta
 }
 
 /*
-========================
-SV_SetVirtualPlayerState
-========================
+=======================
+SV_UpdateVirtualServer
+=======================
 */
-void SV_SetVirtualPlayerState(int serverTime, int parseEntitiesNum, int numEntities, entityState_t *entities, playerState_t* ps) {
+void SV_UpdateVirtualServer(int serverTime, int parseEntitiesNum, int numEntities, entityState_t *entities, playerState_t* ps) {
 	if (!com_sv_running->integer || !com_virtualClient->integer || !virtualClientInitialized || ps->commandTime == virtualClientInitialized) {
 		return;
 	}

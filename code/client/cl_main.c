@@ -3045,7 +3045,7 @@ void CL_Frame ( int msec ) {
 	cls.framecount++;
 	
 	if (com_virtualClient->integer && cl.playerState) {
-		SV_SetVirtualPlayerState(
+		SV_UpdateVirtualServer(
 			cl.serverTime,
 			cl.snap.parseEntitiesNum,
 			cl.snap.numEntities,

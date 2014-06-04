@@ -559,22 +559,15 @@ void CL_ParseGamestate( msg_t *msg ) {
 
 	// make sure the game starts
 	Cvar_Set( "cl_paused", "0" );
-	/*
-	for (i = 0; i < MAX_GENTITIES; ++i) {
-		entityState_t* ent = &cl.entityBaselines[i];
-
-		if (ent->eType > ET_GENERAL) {
-			Com_Printf("-------- CL Found entity #%d (%d), type: %d, clientNum: %d, origin: [%f %f %f]\n", ent->number, i, ent->eType, ent->clientNum, ent->origin[0], ent->origin[1], ent->origin[2]);
-		}
-	}
-	*/
-	if (com_virtualClient->integer && !com_sv_running->integer) {
-		// Retrieve server info from the actual remote server
+	
+    // Launch the shadow-copy of the real server if required
+    if (com_virtualClient->integer && !com_sv_running->integer) {
 		char *serverInfo;
-
+        
+        // Retrieve server info on the real server
 		serverInfo = cl.gameState.stringData + cl.gameState.stringOffsets[CS_SERVERINFO];
 
-		// Set up local server params with data from the remote server to mirror it locally
+		// Set up local server params with data from the real server to mirror it locally
 		Cvar_Set("fraglimit", Info_ValueForKey(serverInfo, "fraglimit"));
 		Cvar_Set("timelimit", Info_ValueForKey(serverInfo, "timelimit"));
 		Cvar_Set("g_gametype", Info_ValueForKey(serverInfo, "g_gametype"));
@@ -582,7 +575,7 @@ void CL_ParseGamestate( msg_t *msg ) {
 		Cvar_Set("g_maxGameClients", Info_ValueForKey(serverInfo, "g_maxGameClients"));
 		Cvar_Set("capturelimit", Info_ValueForKey(serverInfo, "capturelimit"));
 
-		// Start the local virtual server
+		// Start the local virtual server, utilizing the engine's command system
 		Cbuf_ExecuteText(EXEC_NOW,
 			va("devmap %s\n", Info_ValueForKey(serverInfo, "mapname")));
 	}
