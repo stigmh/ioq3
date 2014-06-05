@@ -5,7 +5,7 @@
 ###############################################
 #basepath="/usr/local/games/ioquake3"
 #arch="x86_64"
-#buildDir="build/release-linux-$arch"
+#buildDir="../../../build/release-linux-$arch"
 ##############################################
 
 source baseq3path.local.sh

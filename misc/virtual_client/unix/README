@@ -1,0 +1,37 @@
+This directory contains various bash shell files for the automation of various tasks related to virtual clients and development. You have to create a local file defining the basepath of Quake III Arena before you are able to use the scripts. Name the file "baseq3path.local.sh" and it should at least contain the following:
+
+#!/usr/bin/env bash
+
+basepath="/usr/local/games/ioquake3"
+arch="x86_64"
+buildDir="../../../build/release-linux-$arch"
+
+--------------------------------
+-------------------------------
+
+install_so.sh
+
+  This script should be run after building the engine or any of the QVMs.
+  It copies all the shared objects (dynamic libraries) to the proper location.
+
+launch_virtualclient.sh
+
+  Launches a single virtual client. See the file for configuration.
+
+launch_multiple_vcs.sh
+
+  Launches multiple virtual clients. See the file for configuration.
+
+launch_dedicated.sh
+
+  Launches a normal dedicated ioquake3 server with the configuration available
+  in ../dedicated_server.cfg.
+
+connect_localhost.sh
+
+  Launches the game and connects to a server on the local machine.
+
+benchmark.sh & manual_benchmark.sh
+
+  Scripts to benchmark a Unix game server. Primarily used to gather data
+  for my academic work.
