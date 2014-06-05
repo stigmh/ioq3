@@ -1721,6 +1721,7 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities ) {
 	char psBuff[15];
 	char entsBuff[15];
 	
+    // Retrieve entity and player state pointers from arg. stack
 	gclient_t *cl = NULL;
 	playerState_t *ps = NULL;
 	entityState_t *ents = NULL;
@@ -1728,42 +1729,54 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities ) {
 	trap_Argv(0, entsBuff, sizeof(entsBuff));
 	trap_Argv(1, psBuff, sizeof(psBuff));
 	
+    // Convert the strings to actual pointers
 	sscanf(entsBuff, "%p", &ents);
 	sscanf(psBuff, "%p", &ps);
 	
+    // Ensure that we have valid entities
 	if (!ents) {
 		return;
 	}
-
+    
+    // Loop through all provided entities
 	for (i = 0; i < numEntities; ++i) {
-		entityState_t* ent = &ents[(parseEntitiesNum + i) & (8192 - 1)]; // MAX_PARSE_ENTITIES
+		// Fetch entity data. 8192-1 == MAX_PARSE_ENTITIES.
+        entityState_t* ent = &ents[(parseEntitiesNum + i) & (8192 - 1)];
 		gentity_t* gent = &g_entities[ent->number];
-
+        
+        // Copy in the new entity state
 		Com_Memcpy(&gent->s, ent, sizeof(entityState_t));
-
+        
+        // Special case handling for players
 		if (ent->eType == ET_PLAYER) {
-			// If not initialized on local virtual server
+			// If not previously initialized on local shadow server
 			if (!Q_stricmp(gent->classname, "clientslot")) {
 				// Need to create a local playerstate as ClientBegin zeroes out the client->ps
 				playerState_t playerState;
-
+                
+                // Set inital state, will be updated next frame.
 				Com_Memset(&playerState, 0, sizeof(playerState_t));
 				VectorCopy(ent->pos.trBase, playerState.origin);
 				VectorCopy(ent->apos.trBase, playerState.viewangles);
 				playerState.stats[STAT_HEALTH] = 125;
 
+                // Spawn the entity on the server
 				ClientBegin(ent->clientNum, &playerState);
 			} else {
+                // Player already registered. Check if dead.
 				if (ent->eFlags & EF_DEAD) {
 					if (gent->client)
 						gent->client->ps.pm_type = PM_DEAD;
 				} else {
+                    // Needed to reset dead flag
 					gent->client->ps.pm_type = PM_NORMAL;
-
+                    
+                    // Update the player's position
 					gent->r.currentOrigin[0] = ent->pos.trBase[0];
 					gent->r.currentOrigin[1] = ent->pos.trBase[1];
 					gent->r.currentOrigin[2] = ent->pos.trBase[2];
 
+                    // Update the player's angles
 					gent->r.currentAngles[0] = ent->apos.trBase[0];
 					gent->r.currentAngles[1] = ent->apos.trBase[1];
 					gent->r.currentAngles[2] = ent->apos.trBase[2];
@@ -1772,13 +1785,15 @@ void BotUpdateVirtualClient( int parseEntitiesNum, int numEntities ) {
 		}
 	}
 	
+    // Ensure we have a proper player state
 	if (!ps) {
 		return;
 	}
 	
-	// Retrieve the ID of the virtual client
+	// Retrieve the virtual client
 	cl = g_entities[ps->clientNum].client;
 	
+    // Update its player state
 	if (cl) {
 		Com_Memcpy( &cl->ps, ps, sizeof(playerState_t) );
 	}
