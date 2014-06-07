@@ -36,4 +36,4 @@ if [[ -z $botname ]]; then
   botname="sarge"
 fi
 
-./$buildDir/ioquake3.$arch +set r_fullscreen 0 +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0 +set fs_basepath $basepath +set virtualClient $vcMode +set virtualClientSkill $skill +set virtualClientBot $botname +set virtualClientName $uname +connect nagios.nith.no
+./$buildDir/ioquake3.$arch +set r_fullscreen 0 +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0 +set fs_basepath $basepath +set virtualClient $vcMode +set virtualClientSkill $skill +set virtualClientBot $botname +set virtualClientName $uname +connect $server
