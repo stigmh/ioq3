@@ -429,9 +429,10 @@ void swcode(Swtch swp, int b[], int lb, int ub) {
 				cmp(GT, swp->sym, v[u], hilab);
 			else if (k < ub)
 				cmp(LT, swp->sym, v[l], lolab);
-			else
-				assert(lolab == hilab),
+			else {
+				assert(lolab == hilab);
 				branch(lolab);
+            }
 			walk(NULL, 0, 0);
 		}
 	else {

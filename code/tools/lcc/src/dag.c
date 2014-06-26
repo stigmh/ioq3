@@ -248,10 +248,10 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      r = listnodes(tp->kids[1], 0, 0);
 		      assert(errcnt || opkind(l->op) == opkind(r->op));
 		      assert(errcnt || optype(op) == optype(l->op));
-		      if (tlab)
-		      	assert(flab == 0),
+		      if (tlab) {
+		      	assert(flab == 0);
 		      	list(newnode(generic(tp->op) + opkind(l->op), l, r, findlabel(tlab)));
-		      else if (flab) {
+		      } else if (flab) {
 		      	switch (generic(tp->op)) {
 		      	case EQ: op = NE; break;
 		      	case NE: op = EQ; break;
@@ -529,10 +529,11 @@ void emitcode(void) {
 			       	(*IR->defaddress)(equated(cp->u.swtch.labels[0]));
 			       	for (i = 1; i < cp->u.swtch.size; i++) {
 			       		long k = cp->u.swtch.values[i-1];
-			       		while (++k < cp->u.swtch.values[i])
-			       			assert(k < LONG_MAX),
+			       		while (++k < cp->u.swtch.values[i]) {
+			       			assert(k < LONG_MAX);
 			       			(*IR->defaddress)(equated(cp->u.swtch.deflab));
-			       		(*IR->defaddress)(equated(cp->u.swtch.labels[i]));
+			       		}
+                        (*IR->defaddress)(equated(cp->u.swtch.labels[i]));
 			       	}
 			       	swtoseg(CODE);
 			       } break;
@@ -557,7 +558,7 @@ static Node undag(Node forest) {
 		} else if (iscall(p->op) && p->count >= 1)
 			visit(p, 1);
 		else {
-			assert(p->count == 0),
+			assert(p->count == 0);
 			visit(p, 1);
 			*tail = p;
 			tail = &p->link;

@@ -709,9 +709,10 @@ static void spillr(Symbol r, Node here) {
 	Symbol tmp;
 	Node p = r->x.lastuse;
 	assert(p);
-	while (p->x.prevuse)
-		assert(r == p->syms[RX]),
+	while (p->x.prevuse) {
+		assert(r == p->syms[RX]);
 		p = p->x.prevuse;
+    }
 	assert(p->x.registered && !readsreg(p));
 	tmp = newtemp(AUTO, optype(p->op), opsize(p->op));
 	genspill(r, p, tmp);
