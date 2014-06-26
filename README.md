@@ -6,66 +6,83 @@
                    |            |_|                        |
                    |                                       |
                    `---------- http://ioquake3.org --------´
+                                     
+                                      with
+           __   ___     _             _    ___ _ _         _      
+           \ \ / (_)_ _| |_ _  _ __ _| |  / __| (_)___ _ _| |_ ___
+            \ V /| | '_|  _| || / _` | | | (__| | / -_) ' \  _(_-<
+             \_/ |_|_|  \__|\_,_\__,_|_|  \___|_|_\___|_||_\__/__/
+                                                              
+                            by Stig Magnus Halvorsen
 
-               __  _            __                 ___ __  _          
-          ___ / /_(_)__ ___ _  / /  ___ _  ___ ___/ (_) /_(_)__  ___ 
-         (_-</ __/ / _ `/  ' \/ _ \/ _ `/ / -_) _  / / __/ / _ \/ _ \
-        /___/\__/_/\_, /_/_/_/_//_/\_,_/  \__/\_,_/_/\__/_/\___/_//_/
-                  /___/                                                                                            
+This is an implementation of *ioquake3* (*Quake III Arena*) with support for virtual clients. The difference from a regular bot is that the virtual client runs on the client side, producing network traffic and server load similar to a real human player. This implementation can hence be used as a network traffic and server load generating tool. *Free for all* (deathmatch) is currently the only fully supported game mode, and map switches should be avoided. Full documentation will be provided in my Master's thesis, soon to be published. The following instructions are fetched from my thesis and provide instructions on how to install, build and run the game with virtual clients. 
 
-                    Stig Magnus Halvorsen <halsti@nith.no>'
+## Installing the Binary Data Files
 
-This repository is intended to provide [OpenArena](http://www.openarena.ws)
-with the latest version and updates from the [ioquake3 game 
-engine](https://github.com/ioquake/ioq3/). You are currently looking at the
-*ioquake3* branch of this repository, which is the primary branch for pulling
-engine updates from the official [ioquake3](https://github.com/ioquake/ioq3/)
-repository. The *master* branch (OpenArena branch) is to be merged with this
-branch occasionally.
+Only the source code of Q3A is released as open source under the *GNU General Public License version 2*. The binary data files, including 3D models, textures, audio files, etc. are not open and needs to be obtained from a original CD or by purchasing the game online. Use an installer or manually extract the binary files to an appropriate location on your system. The *ioquake3* project's official website provides installers that includes the latest patches and creates the proper directories and files. All you have to do is to extract the primary binary data file *baseq3/pak0.pk3* and the product key file *baseq3/q3key* from the purchased product and place them in the *baseq3* sub-directory of the installed *ioquake3* directory. Test your install by running the *ioquake3* executable.
 
-The aim of this branch is to have an up-to-date version of the *ioquake3* that
-builds on all platforms by either using the Makefile or the supported IDEs.
+## Building ioquake3 with Virtual Clients
 
-**NB:** the current revision of this branch is only tested and confirmed
-working on Windows 7/8 using either *Make* through
-*[MinGW](http://sourceforge.net/projects/mingw/files/latest/download)* or the
-[Visual Studio 2013]
-(http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
-project located in */misc/msvc/ioq3.sln*.
+The source code of the *ioquake3* virtual client implementation can be obtained from my *GitHub* git repository. The *master* branch is nothing more than a copy of the original ioquake3 project's official Git branch. My implementation is found in the *ProxyClient* branch. The engine and QVMs can be built using Make (\*nix) or the *Visual Studio 2013* project located in *./misc/msvc11/ioq3.sln* (Windows). Detailed install instructions and documented build alternatives can be found by investigating the *Makefile* or in the official *README*.
 
-Changelog
-=========
+Retrieving and building the engine using Make:
 
-*03.02.2014*
+    git clone git@github.com:stigmh/ioq3.git
+    cd ioq3
+    git checkout ProxyClient
+    make
 
-* Created a new repository
-* Updated the Visual Studio project
-	* Now Visual Studio 2013. You can download the Express edition for free from their [official webpage](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop).
-	* Updated to contain and build the actual projects used by *ioquake3*:
-		* cgame (client QVM)
-		* game (server QVM)
-		* q3_ui (ui QVM)
-		* ioquake3 (engine exe)
-		* ioquake3_dedicated (dedicated server edition of engine)
-		* All three missionpacks
-		* Standalone renderers; opengl1 and opengl2
-	* I got lots of help doing this by reading Jonathan Young's ([jpcy](https://github.com/jpcy)) custom [https://github.com/jpcy/ioq3-mono/blob/master/misc/premake5.lua](premake5.lua) script file. I originally wanted to use his Premake script to generate the project files, but it was too incomplete.
-* Fixed a build error in the engine caused by a deprecated Win32 API call (IsWindowsVersionOrGreater()) that checked if the client was Windows NT or older. It was fixed by adding a ``#pragma ignore'', but it should ideally be replaced with the newer Windows API calls. They require the C++ compiler, and won't be supported by our pure C project.
-* Added a patch setting video driver to "windib" for debug builds in Sys_GLimpInit() in sys_win32.c line 693. It was originally set to "directx" which actually enforces SDL to use the DirectX v.5 API. This caused a dead-lock like behavior when setting a breakpoint in Visual Studio, resulting in a freezed cursor and an unstable Visual Studio. It freezed the entire machine on OSX hardware.
-* Upgraded the cURL code to 1.34.1 (was 1.30.4). Contains [many of fixes](http://curl.haxx.se/changes.html) including patching multiple security vulnerabilities.
-* Created this additional documentation to the original ioquake3 readme
+The first instruction above clones the source code of the external git repository into subdirectory named *ioq3* on your local drive. The next navigates into the subdirectory, which is now a local git repository. The remaining instructions jump into the proper git branch and start the automated build process using *Make*. Resulting build binaries can be found in a sub-directory of the *./build* directory on successful compilation. Which exact sub-directory depends on your platform and build preferences. Test the build by running the executable with the +set fs\_basepath argument, which tells the executable where to locate the data files. Note that it requires *Simple DirectMedia Layer* (SDL) 1.2.15 to be installed on your system. SDL resources and guides can be found at their official website.
 
-External Resources
-==================
+Example of running compiled executable on OSX:
 
-* ["Official" forum post for this repo](http://openarena.ws/board/index.php?topic=4900.0)
-* [ioquake3 help section](http://ioquake3.org/help/) (base engine)
-* [ioquake3 git repo and readme](https://github.com/ioquake/ioq3/)
-* [Download Visual Studio 2013 Express](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
-* [Official SDL website](http://libsdl.org/)
-* [7-zip File Manager](http://7-zip.org/)
-* [Fabien Sanglard's excellent code review of the Quake 3 engine](http://fabiensanglard.net/quake3/index.php)
-* [Jean-Paul van Waveren's thesis on implementing bots in Quake 3](http://fd.fabiensanglard.net/quake3/The-Quake-III-Arena-Bot.pdf)
+    ./ioquake3.x86 +set fs_basepath /Applications/ioquake3/
+
+Be aware that this approach will only use the compiled *ioquake3* executable, and not the compiled QVMs. You will have to do some file copy operations and provide some additional arguments in order to use the compiled (development) QVMs. First, you need to either copy the compiled dynamic libraries (*.dll/*.so) into the baseq3 directory of the Q3A install directory. Alternatively, create two directories (e.g.: *virtualclient/vm*) in the Q3A install directory and copy the compiled \*.qvm files there. Second, run the executable with arguments instructing it to use your compiled QVMs rather than the ones located in the *pk3* data files.
+
+Example of running the executable with custom built dynamic library QVMs:
+
+    ./ioquake3.x86 +set fs_basepath /Applications/ioquake3/ +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0
+
+## Running ioquake3 with Virtual Clients
+
+Four configurable *cvar* variables have been added to the engine, which are used to dynamically control the virtual clients. The engine's cvar system enables them to be set and modified through program arguments, the in-game console, or through an engine configuration file. The following table lists the implemented cvars with descriptions. The most essential cvar is *virtualClient* that defines whether or not to enable virtual client support. It defaults to zero, which makes it ignore all modifications and run like the original game. Setting it to 1 launches the game with the rendering system enabled and a virtual client that you can spectate from its point of view, which can be handy for development. The user gets full access to the engine's graphical user interface (GUI). Setting it to 2 launches the game in console mode with a virtual client. Launching it as console requires much less resources than with GUI. Running in console does not need to perform graphics processing, nor load the menu QVM and graphical elements. It is useful when multiple virtual clients are to run on the same machine. Note that it is advised to always connect to a server on the launch of a virtual client, through the *+connect* parameter.
+
+Running a virtual client with GUI enabled and a custom name:
+
+    ./ioquake3.x86 +set fs_basepath /Applications/ioquake3/ +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0 +set virtualClient 1 +set virtualClientName Stigmha +connect 127.0.0.1
+
+## Shell Scripts for Easy Usage
+
+The git codebase provides some shell script files to make development and launching virtual clients easier. They are located in two subdirectories of *./misc/virtual_client/*, one directory for Windows (\*.bat) and one for Unix based systems (\*.sh). All depends on a local file that you need to create, called *baseq3path.local.(sh/bat)*, which you can find and example of in the *README* files. Script documentation and examples are available within two *README* files and the comments of the script files. They also require that you have installed the game and built the virtual client binaries as described earlier. All scripts are configured to run with the development QVMs as described in the previous section.
+
+### install\_(so/dll)
+
+This script should be run after building the engine or any of the QVMs. It copies all the dynamic libraries (\*.so/.dll) to the proper location of the install directory, ensuring that you are working on your compiled version of the QVMs instead of the natives located in the *pk3* files. The script takes no arguments, but requires that your local *baseq3path.local.(bat/sh)* is configured properly.
+
+### launch\_virtualclient
+
+Launches a single virtual client. It has five optional arguments in the following order: server, virtual client mode, user name, skill, and bot. The server argument should either be the IP or domain name of the game server; default is 127.0.0.1 (*localhost*). Virtual client mode specifies the *virtualClient* cvar that you can modify to run it in either GUI or console mode, default is GUI (1). The user name specifies the in-game name of the connected client; default is *VirtualClient*. Skill defines the virtual client's (bot) skill level and should be between 1 and 5, default is 4. Bot specifies which model and bot script to use, default is *sarge*. Example of use:
+
+    ./launch_virtualclient.sh nagios.nith.no 1 Stigmha 3 orbb
+
+### launch\_multiple\_vcs
+
+Launches multiple virtual clients with random properties in console mode, all launched as background processes with output redirected to *null*. Accepts two arguments: number of clients and server. Server is the same as in *launch\_virtualclient*. Number of clients specifies how many virtual client processes to launch, default is 8. Note that the original engine has hard coded support for maximum 64 clients on one server. This can easily altered by changing two C macros in the engine’s source. Example of use:
+
+    ./launch__multiple_vcs.sh 32 nagios.nith.no
+
+### launch\_dedicated
+
+Launches a dedicated *ioquake3* server with the configuration available in *./misc/virtual\_client/dedicated\_server.cfg*, which is a server configuration file made especially for the use of virtual clients. It has a huge time and frag limit, ensuring that map switches do not occur. No arguments are available.
+
+### connect\_localhost
+
+Launches the game and connects to a server on the local machine. Sets the client name to *Stigmha* and the model to *sarge/krusade*. No arguments are available.
+
+### benchmark.sh & manual\_benchmark.sh
+
+These files are only available in the *Unix* directory. They are scripts to benchmark a *Unix* based game server utilizing *SSH*. Primarily used to measure how the virtual clients affect server performance. Collected data is used for evaluation and to generate some of the figures in my thesis. Both can be configured through parameters and by modifying the variables at the beginning of the files.
 
 Original ioquake3 README
 ========================
