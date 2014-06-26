@@ -5,6 +5,7 @@ This directory contains various bash shell files for the automation of various t
 basepath="/usr/local/games/ioquake3"
 arch="x86_64"
 buildDir="../../../build/release-linux-$arch"
+dynamicLib="so"
 
 --------------------------------
 -------------------------------
