@@ -103,12 +103,12 @@ Tree calltree(Tree f, Type ty, Tree args, Symbol t3) {
 
 	if (args)
 		f = tree(RIGHT, f->type, args, f);
-	if (isstruct(ty))
-		assert(t3),
+	if (isstruct(ty)) {
+		assert(t3);
 		p = tree(RIGHT, ty,
 			tree(CALL+B, ty, f, addrof(idtree(t3))),
 			idtree(t3));
-	else {
+	} else {
 		Type rty = ty;
 		if (isenum(ty))
 			rty = unqual(ty)->type;
