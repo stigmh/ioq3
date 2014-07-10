@@ -52,6 +52,12 @@ Running a virtual client with GUI enabled and a custom name:
 
     ./ioquake3.x86 +set fs_basepath /Applications/ioquake3/ +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0 +set virtualClient 1 +set virtualClientName Stigmha +connect 127.0.0.1
 
+| Cvar name          | Description                                                                                        |
+| virtualClient      | Integer, 1-2. Whether to launch as a virtual client. 0: no. 1: yes with GUI. 2: yes with terminal. |
+| virtualClientSkill | Integer, 1-5. 1 is worst, while 5 is best.                                                         |
+| virtualClientBot   | String. Which bot script file to utilize, also used for model.                                     |
+| virtualClientName  | String. Name of client on server, can be anything.                                                 |
+
 ## Shell Scripts for Easy Usage
 
 The git codebase provides some shell script files to make development and launching virtual clients easier. They are located in two subdirectories of *./misc/virtual_client/*, one directory for Windows (\*.bat) and one for Unix based systems (\*.sh). All depends on a local file that you need to create, called *baseq3path.local.(sh/bat)*, which you can find and example of in the *README* files. Script documentation and examples are available within two *README* files and the comments of the script files. They also require that you have installed the game and built the virtual client binaries as described earlier. All scripts are configured to run with the development QVMs as described in the previous section.
