@@ -53,6 +53,7 @@ Running a virtual client with GUI enabled and a custom name:
     ./ioquake3.x86 +set fs_basepath /Applications/ioquake3/ +set sv_pure 0 +set vm_ui 0 +set vm_game 0 +set vm_cgame 0 +set virtualClient 1 +set virtualClientName Stigmha +connect 127.0.0.1
 
 | Cvar name          | Description                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------------- |
 | virtualClient      | Integer, 1-2. Whether to launch as a virtual client. 0: no. 1: yes with GUI. 2: yes with terminal. |
 | virtualClientSkill | Integer, 1-5. 1 is worst, while 5 is best.                                                         |
 | virtualClientBot   | String. Which bot script file to utilize, also used for model.                                     |
