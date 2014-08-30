@@ -574,9 +574,9 @@ it will attempt to load as a system dll
 vm_t *VM_Create( const char *module, intptr_t (*systemCalls)(intptr_t *), 
 				vmInterpret_t interpret ) {
 	vm_t		*vm;
-	vmHeader_t	*header;
 	int			i, remaining, retval;
 	char filename[MAX_OSPATH];
+	vmHeader_t	*header = NULL;
 	void *startSearch = NULL;
 
 	if ( !module || !module[0] || !systemCalls ) {
